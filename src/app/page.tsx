@@ -15,17 +15,17 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import MagneticButton from "@/components/ui/MagneticButton";
-import Reveal, { StaggerChildren } from "@/components/ui/ScrollReveal";
-import CountUpStat from "@/components/ui/CountUpStat";
+import Reveal from "@/components/ui/ScrollReveal";
 import ImageWithSkeleton from "@/components/ui/ImageWithSkeleton";
 import { specialities } from "@/data/specialities";
 import { doctors } from "@/data/doctors";
 import { testimonials, stats, facilities } from "@/data/testimonials";
-import TestimonialsCarousel from "@/components/home/TestimonialsCarousel";
+import TestimonialsScrollStack from "@/components/home/TestimonialsScrollStack";
+import StatsScrollPin from "@/components/home/StatsScrollPin";
 
 export default function Home() {
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-clip">
       <section className="relative py-8 sm:py-12 lg:py-16 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-teal-200/30 rounded-full blur-3xl" />
@@ -253,24 +253,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-padding bg-teal-600 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-white rounded-full blur-3xl" />
-        </div>
-        <div className="container-lg relative">
-          <StaggerChildren staggerDelay={0.1} className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-            {stats.map((stat) => (
-              <div key={stat.id} className="text-center lg:text-left">
-                <div className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-2 leading-none">
-                  <CountUpStat target={stat.value} suffix={stat.suffix} />
-                </div>
-                <div className="text-teal-100 font-medium text-sm sm:text-base">{stat.label}</div>
-              </div>
-            ))}
-          </StaggerChildren>
-        </div>
-      </section>
+      <StatsScrollPin stats={stats} />
 
       <section className="section-padding">
         <div className="container-lg">
@@ -398,26 +381,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-padding relative overflow-hidden">
-        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-teal-100/50 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-        <div className="container-lg relative">
-          <Reveal className="text-center max-w-2xl mx-auto mb-12">
-            <span className="eyebrow">Patient Stories</span>
-            <h2 className="heading-display text-h2 mb-4">
-              What Our{" "}
-              <span className="gradient-text">Patients Say</span>
-            </h2>
-            <p className="text-body text-ink-50">
-              Real stories from real patients. Their trust has been our greatest motivation
-              for over two decades.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <TestimonialsCarousel testimonials={testimonials} />
-          </Reveal>
-        </div>
-      </section>
+      <TestimonialsScrollStack testimonials={testimonials} />
 
       <section className="py-14 sm:py-16 lg:py-20">
         <div className="container-lg">
