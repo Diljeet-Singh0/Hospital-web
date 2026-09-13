@@ -8,22 +8,34 @@ type Props = {
   delay?: number;
   className?: string;
   y?: number;
+  x?: number;
+  duration?: number;
+  ease?: number[] | string;
   once?: boolean;
 };
 
-export default function Reveal({ children, delay = 0, className = "", y = 16, once = true }: Props) {
+export default function Reveal({
+  children,
+  delay = 0,
+  className = "",
+  y = 16,
+  x = 0,
+  duration = 0.4,
+  ease = [0.25, 0.46, 0.45, 0.94],
+  once = true,
+}: Props) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, margin: "0px" });
+  const isInView = useInView(ref, { once, margin: "-40px" });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y }}
+      initial={{ opacity: 0, y, x }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y, x }}
       transition={{
-        duration: 0.4,
+        duration,
         delay,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease,
       }}
       className={className}
     >

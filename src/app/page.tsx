@@ -218,7 +218,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-padding bg-cream-50/50 relative">
+      <section className="section-padding bg-cream-50/50 relative overflow-hidden">
         <div className="container-lg">
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
             <span className="eyebrow">Our Specialities</span>
@@ -243,8 +243,18 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
             {specialities.slice(0, 6).map((spec, i) => {
               const Icon = spec.icon;
+              // Noticeable side entry (left/right) that replays every time scrolled into view
+              const xOffset = i % 2 === 0 ? -160 : 160;
               return (
-                <Reveal key={spec.id} delay={i * 0.05}>
+                <Reveal
+                  key={spec.id}
+                  delay={(i % 3) * 0.15}
+                  x={xOffset}
+                  y={0}
+                  duration={1.3}
+                  ease={[0.22, 1, 0.36, 1]}
+                  once={false}
+                >
                   <Link
                     href="/specialities"
                     className="group card card-hover p-6 flex flex-col justify-between h-full border border-gray-100/80 hover:border-coral-400/80 transition-all duration-300"

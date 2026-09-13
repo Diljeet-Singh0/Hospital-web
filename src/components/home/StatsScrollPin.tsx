@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import CountUpStat from "@/components/ui/CountUpStat";
-import { Award, Users, Activity, Bed, ChevronDown } from "lucide-react";
+import { Award, Users, Activity, Bed } from "lucide-react";
 
 export type StatItem = {
   id: string;
@@ -40,32 +40,36 @@ function interpolate(
 /* ──────────────────────── Static Fallback (for reduced motion) ──────────────────────── */
 function StaticStats({ stats }: Props) {
   return (
-    <section className="section-padding bg-teal-700 relative overflow-hidden text-white">
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-white rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-white rounded-full blur-3xl" />
+    <section className="section-padding bg-gradient-to-b from-teal-700 via-teal-800 to-teal-900 relative overflow-hidden text-white">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-400/15 rounded-full blur-[140px]" />
       </div>
-      <div className="container-lg relative">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-teal-100 text-xs font-semibold uppercase tracking-wider mb-2">
-            Our Milestones
+      <div className="container-lg relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold tracking-wider uppercase text-teal-100 mb-3 shadow-sm">
+            <Award className="w-3.5 h-3.5 text-coral-400" />
+            Milestones of Trust & Care
           </span>
-          <h2 className="text-2xl sm:text-3xl font-display font-bold">
-            Delivering Healthcare Excellence
+          <h2 className="heading-display text-2xl sm:text-3xl lg:text-4xl text-white font-bold leading-tight">
+            Numbers That Define Our{" "}
+            <span className="text-coral-300">Commitment</span>
           </h2>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-          {stats.map((stat, i) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch justify-center max-w-7xl mx-auto w-full">
+          {stats.slice(0, 4).map((stat, i) => {
             const Icon = STAT_ICONS[i] || Award;
             return (
-              <div key={stat.id} className="text-center lg:text-left">
-                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-3 mx-auto lg:mx-0">
-                  <Icon className="w-5 h-5 text-teal-200" />
+              <div
+                key={stat.id}
+                className="p-6 sm:p-7 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-subtle flex flex-col items-center justify-center text-center h-full min-h-[180px] sm:min-h-[200px]"
+              >
+                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-4 text-teal-200 shrink-0">
+                  <Icon className="w-6 h-6" />
                 </div>
                 <div className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-2 leading-none">
                   <CountUpStat target={stat.value} suffix={stat.suffix} />
                 </div>
-                <div className="text-teal-100 font-medium text-sm sm:text-base">
+                <div className="text-teal-100 font-medium text-sm sm:text-base leading-snug">
                   {stat.label}
                 </div>
               </div>
@@ -85,7 +89,7 @@ export default function StatsScrollPin({ stats }: Props) {
 
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
 
-  const [offset, setOffset] = useState({ x: 0, y: 0, scale: 2.5 });
+  const [offset, setOffset] = useState({ x: 0, y: 0, scale: 1.7 });
   const [mounted, setMounted] = useState(false);
   const [startOtherCounts, setStartOtherCounts] = useState(false);
 
@@ -95,9 +99,9 @@ export default function StatsScrollPin({ stats }: Props) {
     suffix: "+",
     label: "Years of Excellence",
   };
-  const otherStats = stats.slice(1);
+  const otherStats = stats.slice(1, 4);
 
-  // Measure untransformed position of slot 1 relative to container center
+  // Measure untransformed center of Slot 1 relative to container center
   const updateOffset = () => {
     if (!slot1AnchorRef.current || !containerRef.current) return;
     const slotRect = slot1AnchorRef.current.getBoundingClientRect();
@@ -113,8 +117,7 @@ export default function StatsScrollPin({ stats }: Props) {
     const deltaY = containerCenterY - slotCenterY;
 
     const width = window.innerWidth;
-    // ponytail: reduced scale from 2.5/2.1/1.7 to keep section compact
-    const targetScale = width < 640 ? 1.3 : width < 1024 ? 1.5 : 1.8;
+    const targetScale = width < 640 ? 1.25 : width < 1024 ? 1.45 : 1.7;
 
     setOffset({ x: deltaX, y: deltaY, scale: targetScale });
   };
@@ -143,7 +146,7 @@ export default function StatsScrollPin({ stats }: Props) {
   // Trigger count-up for other stats once user scrolls into the reveal phase
   useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (latest) => {
-      if (latest >= 0.28 && !startOtherCounts) {
+      if (latest >= 0.25 && !startOtherCounts) {
         setStartOtherCounts(true);
       }
     });
@@ -151,90 +154,64 @@ export default function StatsScrollPin({ stats }: Props) {
   }, [scrollYProgress, startOtherCounts]);
 
   // Motion transforms driven by scroll position
-  // 1. Slot 1 (22+ Years of Excellence): starts big and centered, shrinks and glides to slot
+  // 1. Slot 1 (22+ Years of Excellence): starts big & centered, glides right into Slot 1
   const slot1X = useTransform(scrollYProgress, (v) =>
-    mounted ? interpolate(v, 0.12, 0.55, offset.x, 0) : 0
+    mounted ? interpolate(v, 0.1, 0.55, offset.x, 0) : 0
   );
   const slot1Y = useTransform(scrollYProgress, (v) =>
-    mounted ? interpolate(v, 0.12, 0.55, offset.y, 0) : 0
+    mounted ? interpolate(v, 0.1, 0.55, offset.y, 0) : 0
   );
   const slot1Scale = useTransform(scrollYProgress, (v) =>
-    mounted ? interpolate(v, 0.12, 0.55, offset.scale, 1) : 1
+    mounted ? interpolate(v, 0.1, 0.55, offset.scale, 1) : 1
   );
 
-  // Hero elements (tagline, badge) fade out as 22+ moves into position
+  // Hero decorations (badge & subtitle) fade out smoothly as number moves into card
   const heroDecorOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.06, 0.22, 1, 0)
+    interpolate(v, 0.08, 0.28, 1, 0)
   );
   const heroDecorY = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.06, 0.22, 0, -12)
+    interpolate(v, 0.08, 0.28, 0, -10)
   );
 
-  // Scroll hint pill at bottom fades away quickly on initial scroll
-  const scrollHintOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.02, 0.12, 1, 0)
-  );
-  const scrollHintY = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.02, 0.12, 0, 15)
-  );
-
-  // Section title & eyebrow at the top fade in as the numbers organize
+  // Section header fades in as cards organize
   const headerOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.22, 0.48, 0, 1)
+    interpolate(v, 0.2, 0.48, 0, 1)
   );
   const headerY = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.22, 0.48, -16, 0)
+    interpolate(v, 0.2, 0.48, -16, 0)
   );
 
-  // Slots 2, 3, 4 fade in and slide up smoothly into their original size
+  // Card 1's frame (border, background, icon) and other cards fade in as it arrives
+  const cardFrameOpacity = useTransform(scrollYProgress, (v) =>
+    interpolate(v, 0.22, 0.52, 0, 1)
+  );
+
+  // Slots 2, 3, 4 fade in and slide up into their grid slots
   const stat2Opacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.26, 0.5, 0, 1)
+    interpolate(v, 0.24, 0.52, 0, 1)
   );
   const stat2Y = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.26, 0.5, 28, 0)
-  );
-  const stat2Scale = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.26, 0.5, 0.92, 1)
+    interpolate(v, 0.24, 0.52, 24, 0)
   );
 
   const stat3Opacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.32, 0.56, 0, 1)
+    interpolate(v, 0.28, 0.55, 0, 1)
   );
   const stat3Y = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.32, 0.56, 28, 0)
-  );
-  const stat3Scale = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.32, 0.56, 0.92, 1)
+    interpolate(v, 0.28, 0.55, 24, 0)
   );
 
   const stat4Opacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.38, 0.62, 0, 1)
+    interpolate(v, 0.32, 0.58, 0, 1)
   );
   const stat4Y = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.38, 0.62, 28, 0)
-  );
-  const stat4Scale = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.38, 0.62, 0.92, 1)
+    interpolate(v, 0.32, 0.58, 24, 0)
   );
 
-  // Background ambient glow pulse & tracking
-  const glowScale = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.12, 0.55, 1.3, 0.9)
-  );
-  const glowOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.12, 0.55, 0.3, 0.15)
-  );
-
-  // Sleek progress bar at bottom showing completion through the pinned sequence
-  const progressBarWidth = useTransform(
-    scrollYProgress,
-    (v) => `${Math.min(Math.max(v * 100, 0), 100)}%`
-  );
-
-  const otherMotions = [
-    { opacity: stat2Opacity, y: stat2Y, scale: stat2Scale },
-    { opacity: stat3Opacity, y: stat3Y, scale: stat3Scale },
-    { opacity: stat4Opacity, y: stat4Y, scale: stat4Scale },
+  const otherCardMotions = [
+    { opacity: stat2Opacity, y: stat2Y },
+    { opacity: stat3Opacity, y: stat3Y },
+    { opacity: stat4Opacity, y: stat4Y },
   ];
 
   return (
@@ -245,38 +222,26 @@ export default function StatsScrollPin({ stats }: Props) {
       </div>
 
       {/* Interactive scroll-pinned experience */}
-      {/* ponytail: reduced from 250vh to 180vh for compact scroll distance */}
       <div className="motion-reduce:hidden">
         <section
           ref={sectionRef}
           className="relative"
-          style={{ height: "180vh" }}
+          style={{ height: "200vh" }}
         >
-          {/* Sticky Container: reduced from h-screen to h-[75vh] for compact feel */}
+          {/* Full-height sticky container: avoids uneven bottom clipping */}
           <div
             ref={containerRef}
-            className="sticky top-0 h-[75vh] w-full flex flex-col justify-center items-center overflow-hidden bg-gradient-to-b from-teal-700 via-teal-800 to-teal-900 text-white select-none pt-16"
+            className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-gradient-to-b from-teal-700 via-teal-800 to-teal-900 text-white select-none py-12"
           >
-            {/* Ambient Background Glows */}
-            <motion.div
-              style={{ scale: glowScale, opacity: glowOpacity }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-teal-400 rounded-full blur-[140px] pointer-events-none"
-            />
-            <div className="absolute -bottom-20 right-0 w-[450px] h-[450px] bg-coral-500/15 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute top-0 left-10 w-[350px] h-[350px] bg-white/5 rounded-full blur-[90px] pointer-events-none" />
-
-            {/* Subtle concentric rings radiating from center during hero phase */}
-            <motion.div
-              style={{ opacity: heroDecorOpacity }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[480px] lg:w-[620px] h-[340px] sm:h-[480px] lg:h-[620px] border border-white/10 rounded-full pointer-events-none"
-            />
-            <motion.div
-              style={{ opacity: heroDecorOpacity }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] sm:w-[700px] lg:w-[900px] h-[520px] sm:h-[700px] lg:h-[900px] border border-white/5 rounded-full pointer-events-none"
-            />
+            {/* Ambient Background Accents - fully contained without bottom cutoffs */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-teal-400/15 rounded-full blur-[140px]" />
+              <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-coral-500/10 rounded-full blur-[120px]" />
+              <div className="absolute top-0 left-1/4 w-[350px] h-[350px] bg-white/5 rounded-full blur-[90px]" />
+            </div>
 
             {/* Main Content Area */}
-            <div className="container-lg relative z-10 w-full px-4 sm:px-6 lg:px-8">
+            <div className="container-lg relative z-10 w-full mx-auto px-4 sm:px-6 lg:px-8">
               {/* Header: Fades in as numbers arrange */}
               <motion.div
                 style={{ opacity: headerOpacity, y: headerY }}
@@ -292,13 +257,28 @@ export default function StatsScrollPin({ stats }: Props) {
                 </h2>
               </motion.div>
 
-              {/* The Stats Grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
-                {/* ── Slot 1: 22+ Years of Excellence (Hero morphs into this slot) ── */}
+              {/* 4 Statistics in One Consistent Horizontal Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch justify-center max-w-7xl mx-auto w-full">
+                {/* ── Slot 1: "22+ Years of Excellence" in its own aligned card ── */}
                 <div
                   ref={slot1AnchorRef}
-                  className="relative flex flex-col items-center lg:items-start text-center lg:text-left justify-center min-h-[140px] sm:min-h-[160px]"
+                  className="relative p-6 sm:p-7 rounded-2xl backdrop-blur-sm shadow-subtle flex flex-col items-center justify-center text-center h-full min-h-[180px] sm:min-h-[200px]"
                 >
+                  {/* Card 1 Frame (background and border) that fades in as the stat lands */}
+                  <motion.div
+                    style={{ opacity: cardFrameOpacity }}
+                    className="absolute inset-0 rounded-2xl bg-white/5 border border-white/10 pointer-events-none"
+                  />
+
+                  {/* Card 1 Icon fades in to match other cards */}
+                  <motion.div
+                    style={{ opacity: cardFrameOpacity }}
+                    className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-4 text-teal-200 shrink-0 z-10"
+                  >
+                    <Award className="w-6 h-6" />
+                  </motion.div>
+
+                  {/* Morphed Stat Number & Label */}
                   <motion.div
                     style={{
                       x: slot1X,
@@ -307,22 +287,22 @@ export default function StatsScrollPin({ stats }: Props) {
                       transformOrigin: "center center",
                       willChange: "transform",
                     }}
-                    className="relative flex flex-col items-center lg:items-start text-center lg:text-left z-30"
+                    className="relative z-20 flex flex-col items-center justify-center text-center"
                   >
-                    {/* Hero Badge: visible only when big & centered */}
+                    {/* Hero Badge: absolutely positioned so it never distorts card height */}
                     <motion.div
                       style={{
                         opacity: heroDecorOpacity,
                         y: heroDecorY,
                       }}
-                      className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-teal-100 mb-3 sm:mb-4 shadow-sm"
+                      className="absolute bottom-full mb-3 sm:mb-4 whitespace-nowrap pointer-events-none inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-teal-100 shadow-sm"
                     >
                       <Award className="w-3.5 h-3.5 text-coral-300" />
                       Two Decades of Excellence
                     </motion.div>
 
                     {/* The Big Stat Number */}
-                    <div className="font-display font-black text-5xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-none drop-shadow-md">
+                    <div className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-2 leading-none">
                       <CountUpStat
                         target={heroStat.value}
                         suffix={heroStat.suffix}
@@ -331,17 +311,17 @@ export default function StatsScrollPin({ stats }: Props) {
                     </div>
 
                     {/* The Primary Label */}
-                    <div className="text-teal-100 font-semibold text-sm sm:text-base lg:text-lg mt-2 tracking-wide leading-snug">
+                    <div className="text-teal-100 font-medium text-sm sm:text-base leading-snug">
                       {heroStat.label}
                     </div>
 
-                    {/* Hero Subtitle: visible only when big & centered */}
+                    {/* Hero Subtitle: absolutely positioned so it never distorts card height */}
                     <motion.p
                       style={{
                         opacity: heroDecorOpacity,
                         y: heroDecorY,
                       }}
-                      className="text-teal-200/90 text-[11px] sm:text-xs mt-2 max-w-[220px] sm:max-w-xs text-center leading-relaxed font-normal"
+                      className="absolute top-full mt-3 w-64 sm:w-80 pointer-events-none text-teal-200/90 text-xs sm:text-sm text-center leading-relaxed font-normal"
                     >
                       NABH Accredited Super Multispeciality Hospital serving
                       Punjab with world-class medical innovation since 2002.
@@ -349,10 +329,10 @@ export default function StatsScrollPin({ stats }: Props) {
                   </motion.div>
                 </div>
 
-                {/* ── Slots 2, 3, 4: Smoothly appear alongside 22+ ── */}
+                {/* ── Slots 2, 3, 4: Equal-height cards in the exact same grid ── */}
                 {otherStats.map((stat, idx) => {
                   const Icon = STAT_ICONS[idx + 1] || Award;
-                  const motionStyle = otherMotions[idx] || otherMotions[0];
+                  const motionStyle = otherCardMotions[idx] || otherCardMotions[0];
 
                   return (
                     <motion.div
@@ -360,13 +340,12 @@ export default function StatsScrollPin({ stats }: Props) {
                       style={{
                         opacity: motionStyle.opacity,
                         y: motionStyle.y,
-                        scale: motionStyle.scale,
                         willChange: "transform, opacity",
                       }}
-                      className="relative flex flex-col items-center lg:items-start text-center lg:text-left justify-center min-h-[140px] sm:min-h-[160px] p-4 sm:p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-subtle"
+                      className="relative p-6 sm:p-7 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-subtle flex flex-col items-center justify-center text-center h-full min-h-[180px] sm:min-h-[200px]"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-3 text-teal-200">
-                        <Icon className="w-5 h-5" />
+                      <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-4 text-teal-200 shrink-0">
+                        <Icon className="w-6 h-6" />
                       </div>
                       <div className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-2 leading-none">
                         <CountUpStat
@@ -382,30 +361,6 @@ export default function StatsScrollPin({ stats }: Props) {
                   );
                 })}
               </div>
-            </div>
-
-            {/* Bottom floating scroll hint: prompts user initially, then fades away */}
-            <motion.div
-              style={{
-                opacity: scrollHintOpacity,
-                y: scrollHintY,
-              }}
-              className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
-            >
-              <span className="text-[11px] sm:text-xs tracking-widest uppercase text-teal-200/90 font-medium">
-                Scroll to explore
-              </span>
-              <div className="w-7 h-7 rounded-full bg-white/10 border border-white/20 flex items-center justify-center animate-bounce">
-                <ChevronDown className="w-4 h-4 text-white" />
-              </div>
-            </motion.div>
-
-            {/* Subtle Progress Bar along bottom edge */}
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-white/10">
-              <motion.div
-                style={{ width: progressBarWidth }}
-                className="h-full bg-gradient-to-r from-teal-400 via-teal-300 to-coral-400"
-              />
             </div>
           </div>
         </section>
