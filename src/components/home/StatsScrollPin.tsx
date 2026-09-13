@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, useSpring } from "framer-motion";
 import CountUpStat from "@/components/ui/CountUpStat";
 import { Award, Users, Activity, Bed } from "lucide-react";
 
@@ -32,7 +32,7 @@ function interpolate(
 ): number {
   if (v <= inStart) return outStart;
   if (v >= inEnd) return outEnd;
-  const t = (v - inStart) / (inEnd - inStart);
+  const t = Math.min(Math.max((v - inStart) / (inEnd - inStart), 0), 1);
   const ease = easeInOutCubic(t);
   return outStart + (outEnd - outStart) * ease;
 }
@@ -138,74 +138,82 @@ export default function StatsScrollPin({ stats }: Props) {
     };
   }, []);
 
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: rawScrollProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
+  });
+
+  // Soft spring smoothing to remove scroll wheel jumps and jitter
+  const scrollYProgress = useSpring(rawScrollProgress, {
+    stiffness: 85,
+    damping: 24,
+    mass: 0.6,
+    restDelta: 0.0005,
   });
 
   // Trigger count-up for other stats once user scrolls into the reveal phase
   useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (latest) => {
-      if (latest >= 0.25 && !startOtherCounts) {
+      if (latest >= 0.28 && !startOtherCounts) {
         setStartOtherCounts(true);
       }
     });
     return () => unsubscribe();
   }, [scrollYProgress, startOtherCounts]);
 
-  // Motion transforms driven by scroll position
-  // 1. Slot 1 (22+ Years of Excellence): starts big & centered, glides right into Slot 1
+  // Motion transforms driven by smoothed scroll position
+  // 1. Slot 1 (22+ Years of Excellence): starts big & centered, glides gently into Slot 1
   const slot1X = useTransform(scrollYProgress, (v) =>
-    mounted ? interpolate(v, 0.1, 0.55, offset.x, 0) : 0
+    mounted ? interpolate(v, 0.06, 0.6, offset.x, 0) : 0
   );
   const slot1Y = useTransform(scrollYProgress, (v) =>
-    mounted ? interpolate(v, 0.1, 0.55, offset.y, 0) : 0
+    mounted ? interpolate(v, 0.06, 0.6, offset.y, 0) : 0
   );
   const slot1Scale = useTransform(scrollYProgress, (v) =>
-    mounted ? interpolate(v, 0.1, 0.55, offset.scale, 1) : 1
+    mounted ? interpolate(v, 0.06, 0.6, offset.scale, 1) : 1
   );
 
   // Hero decorations (badge & subtitle) fade out smoothly as number moves into card
   const heroDecorOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.08, 0.28, 1, 0)
+    interpolate(v, 0.05, 0.3, 1, 0)
   );
   const heroDecorY = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.08, 0.28, 0, -10)
+    interpolate(v, 0.05, 0.3, 0, -10)
   );
 
   // Section header fades in as cards organize
   const headerOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.2, 0.48, 0, 1)
+    interpolate(v, 0.16, 0.48, 0, 1)
   );
   const headerY = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.2, 0.48, -16, 0)
+    interpolate(v, 0.16, 0.48, -16, 0)
   );
 
   // Card 1's frame (border, background, icon) and other cards fade in as it arrives
   const cardFrameOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.22, 0.52, 0, 1)
+    interpolate(v, 0.18, 0.54, 0, 1)
   );
 
   // Slots 2, 3, 4 fade in and slide up into their grid slots
   const stat2Opacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.24, 0.52, 0, 1)
+    interpolate(v, 0.2, 0.54, 0, 1)
   );
   const stat2Y = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.24, 0.52, 24, 0)
+    interpolate(v, 0.2, 0.54, 24, 0)
   );
 
   const stat3Opacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.28, 0.55, 0, 1)
+    interpolate(v, 0.24, 0.58, 0, 1)
   );
   const stat3Y = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.28, 0.55, 24, 0)
+    interpolate(v, 0.24, 0.58, 24, 0)
   );
 
   const stat4Opacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.32, 0.58, 0, 1)
+    interpolate(v, 0.28, 0.62, 0, 1)
   );
   const stat4Y = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.32, 0.58, 24, 0)
+    interpolate(v, 0.28, 0.62, 24, 0)
   );
 
   const otherCardMotions = [
@@ -226,7 +234,7 @@ export default function StatsScrollPin({ stats }: Props) {
         <section
           ref={sectionRef}
           className="relative"
-          style={{ height: "200vh" }}
+          style={{ height: "220vh" }}
         >
           {/* Full-height sticky container: avoids uneven bottom clipping */}
           <div
