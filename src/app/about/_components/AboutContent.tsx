@@ -1,6 +1,8 @@
 "use client";
 
-import Reveal, { StaggerChildren } from "@/components/ui/ScrollReveal";
+import Reveal from "@/components/ui/ScrollReveal";
+import { motion } from "framer-motion";
+import StatsScrollPin from "@/components/home/StatsScrollPin";
 import CountUpStat from "@/components/ui/CountUpStat";
 import ImageWithSkeleton from "@/components/ui/ImageWithSkeleton";
 import { hospitalInfo } from "@/data/hospital";
@@ -20,6 +22,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import MagneticButton from "@/components/ui/MagneticButton";
+import DoctorCard from "@/components/ui/DoctorCard";
 
 const values = [
   {
@@ -169,23 +172,12 @@ export default function AboutContent() {
         </div>
       </section>
 
-      <section className="section-padding bg-teal-600 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-white rounded-full blur-3xl" />
-        </div>
-        <div className="container-lg relative">
-          <StaggerChildren staggerDelay={0.1} className="grid grid-cols-2 lg:grid-cols-4 gap-10">
-            {stats.map((s) => (
-              <div key={s.id} className="text-center lg:text-left">
-                <div className="font-display font-bold text-5xl lg:text-6xl text-white mb-2 leading-none">
-                  <CountUpStat target={s.value} suffix={s.suffix} />
-                </div>
-                <div className="text-teal-100 font-medium">{s.label}</div>
-              </div>
-            ))}
-          </StaggerChildren>
-        </div>
-      </section>
+      {/* ── Pinned Scroll Stats Section: 22+ Years Hero Zoom & Reveal ── */}
+      <StatsScrollPin
+        stats={stats.map((s) =>
+          s.id === "1" ? { ...s, label: "Years of Experience" } : s
+        )}
+      />
 
       <section className="section-padding">
         <div className="container-lg">
@@ -215,7 +207,7 @@ export default function AboutContent() {
         </div>
       </section>
 
-      <section className="section-padding bg-white/60">
+      <section className="section-padding bg-white/60 relative overflow-hidden">
         <div className="container-lg">
           <Reveal className="text-center max-w-2xl mx-auto mb-14">
             <span className="eyebrow">Our Journey</span>
@@ -225,22 +217,72 @@ export default function AboutContent() {
           </Reveal>
 
           <div className="relative">
-            <div className="absolute left-4 sm:left-6 md:left-1/2 top-0 bottom-0 w-px bg-teal-100 md:-translate-x-1/2" />
-            <div className="space-y-8 sm:space-y-10">
-              {milestones.map((m, i) => (
-                <Reveal key={m.year} delay={i * 0.1}>
-                  <div className={`relative md:grid md:grid-cols-2 md:gap-10 pl-10 sm:pl-16 md:pl-0 ${i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""}`}>
-                    <div className="absolute left-2.5 sm:left-4.5 md:left-1/2 top-3 w-3.5 h-3.5 rounded-full bg-coral-500 md:-translate-x-1/2 ring-4 ring-cream" />
-                    <div className={`${i % 2 === 1 ? "md:pl-12" : "md:pr-12 md:text-right"}`}>
-                      <div className="card p-5 sm:p-6 md:p-7 block text-left">
-                        <div className="font-display font-bold text-2xl text-teal-600 mb-1">{m.year}</div>
-                        <h4 className="heading-display text-h4 mb-2">{m.title}</h4>
-                        <p className="text-sm text-ink-50 leading-relaxed">{m.desc}</p>
+            {/* Timeline center gradient line */}
+            <div className="absolute left-4 sm:left-6 md:left-1/2 top-4 bottom-4 w-0.5 bg-gradient-to-b from-teal-500/20 via-teal-500/40 to-teal-500/10 -translate-x-1/2" />
+
+            <div className="space-y-8 sm:space-y-12">
+              {milestones.map((m, i) => {
+                const isEven = i % 2 === 0;
+                return (
+                  <div key={m.year} className="relative md:grid md:grid-cols-2 md:gap-12 lg:gap-16 items-center">
+                    {/* Pulsing center timeline dot */}
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true, margin: "-40px" }}
+                      transition={{ type: "spring", stiffness: 350, damping: 20, delay: 0.08 }}
+                      className="absolute left-4 sm:left-6 md:left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center pointer-events-none"
+                    >
+                      <span className="relative flex h-4 w-4">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-30" />
+                        <span className="relative inline-flex rounded-full h-4 w-4 bg-teal-600 ring-4 ring-cream shadow-sm" />
+                      </span>
+                    </motion.div>
+
+                    {/* Milestone Card with directional slide */}
+                    <motion.div
+                      initial={{ opacity: 0, x: isEven ? -35 : 35, y: 15 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{
+                        duration: 0.55,
+                        ease: [0.22, 1, 0.36, 1],
+                        delay: 0.05,
+                      }}
+                      className={`pl-8 sm:pl-10 md:pl-0 ${
+                        isEven
+                          ? "md:col-start-1 md:pr-10 lg:md:pr-12"
+                          : "md:col-start-2 md:pl-10 lg:md:pl-12"
+                      }`}
+                    >
+                      <div className="card p-5 sm:p-6 md:p-7 block transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1.5 hover:border-teal-300 relative group bg-white/95 backdrop-blur-sm">
+                        {/* Subtle pointer pointing towards the center timeline on desktop */}
+                        <div
+                          className={`hidden md:block absolute top-7 w-3 h-3 rotate-45 bg-white border-gray-100 transition-colors group-hover:border-teal-300 ${
+                            isEven
+                              ? "-right-1.5 border-t border-r"
+                              : "-left-1.5 border-b border-l"
+                          }`}
+                        />
+                        <div className="flex items-center justify-between gap-3 mb-2">
+                          <span className="font-display font-bold text-2xl sm:text-3xl text-teal-600 tracking-tight">
+                            {m.year}
+                          </span>
+                          <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-100/70">
+                            Milestone 0{i + 1}
+                          </span>
+                        </div>
+                        <h4 className="heading-display text-h4 mb-2 group-hover:text-teal-700 transition-colors">
+                          {m.title}
+                        </h4>
+                        <p className="text-sm text-ink-50 leading-relaxed">
+                          {m.desc}
+                        </p>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
-                </Reveal>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -298,26 +340,8 @@ export default function AboutContent() {
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {doctors.slice(0, 4).map((doc, i) => (
-              <Reveal key={doc.id} delay={i * 0.08}>
-                <Link href="/doctors" className="card card-hover overflow-hidden group block">
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    <ImageWithSkeleton
-                      src={doc.image}
-                      alt={doc.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <div className="text-xs font-semibold text-teal-600 mb-1.5">{doc.specialty}</div>
-                    <h4 className="heading-display text-h4 mb-1">{doc.name}</h4>
-                    <p className="text-sm text-ink-50 mb-3">{doc.qualification}</p>
-                    <span className="text-coral-500 font-medium text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                      View Profile <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </Link>
+              <Reveal key={doc.id} delay={i * 0.08} className="h-full">
+                <DoctorCard doctor={doc} href="/doctors" />
               </Reveal>
             ))}
           </div>

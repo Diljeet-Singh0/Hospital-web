@@ -44,6 +44,7 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-fraunces)", "serif"],
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        pixel: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "'Courier New'", "monospace"],
       },
       spacing: {
         "1": "8px",

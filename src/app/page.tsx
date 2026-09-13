@@ -1,7 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { hospitalInfo } from "@/data/hospital";
 import {
   ShieldCheck,
@@ -22,8 +23,16 @@ import { doctors } from "@/data/doctors";
 import { testimonials, stats, facilities } from "@/data/testimonials";
 import TestimonialsScrollStack from "@/components/home/TestimonialsScrollStack";
 import StatsScrollPin from "@/components/home/StatsScrollPin";
+import ScrollWordReveal from "@/components/ui/ScrollWordReveal";
+import DoctorCard from "@/components/ui/DoctorCard";
 
 export default function Home() {
+  const aboutSectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: aboutScrollProgress } = useScroll({
+    target: aboutSectionRef,
+    offset: ["start start", "end end"],
+  });
+
   return (
     <div className="overflow-x-clip">
       <section className="relative py-8 sm:py-12 lg:py-16 overflow-hidden">
@@ -36,9 +45,9 @@ export default function Home() {
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-7">
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-teal-100 shadow-subtle mb-6 sm:mb-8"
               >
                 <span className="flex items-center gap-1">
@@ -52,9 +61,9 @@ export default function Home() {
               </motion.div>
 
               <motion.h1
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.75, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
                 className="heading-display text-hero-sm sm:text-h1 lg:text-hero mb-6 leading-[1.08]"
               >
                 Where{" "}
@@ -75,9 +84,9 @@ export default function Home() {
               </motion.h1>
 
               <motion.p
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="text-body sm:text-body-lg text-ink-50 max-w-xl mb-8 sm:mb-10 leading-relaxed"
               >
                 Smt. Paarvati Devi Hospital — A NABH Accredited Super Multispeciality Hospital
@@ -86,9 +95,9 @@ export default function Home() {
               </motion.p>
 
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.7, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-10"
               >
                 <Link href="/contact" className="w-full sm:w-auto">
@@ -111,9 +120,9 @@ export default function Home() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.18 }}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.74, ease: [0.16, 1, 0.3, 1] }}
                 className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-6 border-t border-teal-100/60"
               >
                 {hospitalInfo.accreditations.map((acc) => (
@@ -137,9 +146,9 @@ export default function Home() {
             </div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.45, delay: 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+              initial={{ opacity: 0, y: 36, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-5"
             >
               <div className="relative rounded-2xl overflow-hidden shadow-card border border-gray-100/80 bg-white">
@@ -152,7 +161,12 @@ export default function Home() {
                   className="aspect-[4/3] sm:aspect-[4/5] w-full object-cover"
                 />
 
-                <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-3 sm:p-3.5 shadow-card border border-gray-100 max-w-[210px]">
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.72, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-3 sm:p-3.5 shadow-card border border-gray-100 max-w-[210px]"
+                >
                   <div className="flex -space-x-2 mb-2">
                     {[
                       "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&auto=format&fit=crop",
@@ -174,9 +188,14 @@ export default function Home() {
                     <Star className="w-3 h-3 text-coral-500 fill-coral-500 shrink-0" />
                     <span>4.9/5 (10k+ reviews)</span>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl p-3 sm:p-3.5 shadow-card border border-gray-100 max-w-[220px]">
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl p-3 sm:p-3.5 shadow-card border border-gray-100 max-w-[220px]"
+                >
                   <div className="flex items-center gap-2.5 mb-2">
                     <div className="w-8 h-8 rounded-full bg-coral-500/10 flex items-center justify-center shrink-0">
                       <Clock className="w-4 h-4 text-coral-500" />
@@ -192,7 +211,7 @@ export default function Home() {
                     <div className="h-full bg-gradient-to-r from-teal-500 to-teal-600 rounded-full w-[95%]" />
                   </div>
                   <div className="text-[10px] text-ink-50 mt-1.5">Immediate Response Time</div>
-                </div>
+                </motion.div>
               </div>
             </motion.div>
           </div>
@@ -255,73 +274,78 @@ export default function Home() {
 
       <StatsScrollPin stats={stats} />
 
-      <section className="section-padding">
-        <div className="container-lg">
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-            <Reveal className="lg:col-span-6">
-              <div className="relative rounded-2xl overflow-hidden shadow-card border border-gray-100 bg-white">
-                <ImageWithSkeleton
-                  src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=900&auto=format&fit=crop"
-                  alt="Hospital reception and modern lobby"
-                  width={900}
-                  height={700}
-                  className="aspect-[4/3] sm:aspect-[5/4] w-full object-cover"
-                />
-                <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 sm:p-5 shadow-card border border-gray-100 max-w-[270px]">
-                  <div className="grid grid-cols-2 gap-3">
-                    {facilities.slice(0, 4).map((f, i) => (
-                      <div key={i} className="flex items-start gap-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0 mt-0.5" />
-                        <span className="text-[11px] sm:text-xs text-ink-200 font-medium leading-snug">{f}</span>
-                      </div>
-                    ))}
+      {/* ── About Us Section with Pinned Slow-Scroll Text Reveal ── */}
+      <section ref={aboutSectionRef} className="relative" style={{ height: "180vh" }}>
+        <div className="sticky top-0 min-h-screen flex items-center py-12 lg:py-16 overflow-hidden">
+          <div className="container-lg">
+            <div className="grid lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+              <div className="lg:col-span-6">
+                <div className="relative rounded-2xl overflow-hidden shadow-card border border-gray-100 bg-white">
+                  <ImageWithSkeleton
+                    src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=900&auto=format&fit=crop"
+                    alt="Hospital reception and modern lobby"
+                    width={900}
+                    height={700}
+                    className="aspect-[4/3] sm:aspect-[5/4] w-full object-cover"
+                  />
+                  <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 sm:p-5 shadow-card border border-gray-100 max-w-[270px]">
+                    <div className="grid grid-cols-2 gap-3">
+                      {facilities.slice(0, 4).map((f, i) => (
+                        <div key={i} className="flex items-start gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0 mt-0.5" />
+                          <span className="text-[11px] sm:text-xs text-ink-200 font-medium leading-snug">{f}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </Reveal>
 
-            <Reveal className="lg:col-span-6" delay={0.15}>
-              <span className="eyebrow">About Us</span>
-              <h2 className="heading-display text-h2 mb-4 max-w-xl">
-                22 Years of{" "}
-                <span className="gradient-text">Trusted Healthcare</span> Excellence
-              </h2>
-              <p className="text-body sm:text-body-lg text-ink-50 mb-5 leading-relaxed">
-                Spread across approximately two acres, Smt. Paarvati Devi Hospital has been
-                a beacon of hope for patients across Punjab and beyond for over two decades.
-              </p>
-              <p className="text-body text-ink-50 mb-6 leading-relaxed">
-                With 100+ beds, 5 modular laminar operation theatres, two intensive care units,
-                and a fully computerized laboratory, we combine cutting-edge medical technology
-                with warm, personalized care. Our team of 50+ specialists and 200+ support staff
-                work tirelessly to ensure every patient receives the best possible treatment.
-              </p>
+              <div className="lg:col-span-6">
+                <span className="eyebrow">About Us</span>
+                <h2 className="heading-display text-h2 mb-4 max-w-xl">
+                  22 Years of{" "}
+                  <span className="gradient-text">Trusted Healthcare</span> Excellence
+                </h2>
+                <ScrollWordReveal
+                  text="Spread across approximately two acres, Smt. Paarvati Devi Hospital has been a beacon of hope for patients across Punjab and beyond for over two decades."
+                  className="text-body sm:text-body-lg text-ink mb-5 leading-relaxed font-normal"
+                  progress={aboutScrollProgress}
+                  range={[0.1, 0.5]}
+                />
+                <ScrollWordReveal
+                  text="With 100+ beds, 5 modular laminar operation theatres, two intensive care units, and a fully computerized laboratory, we combine cutting-edge medical technology with warm, personalized care. Our team of 50+ specialists and 200+ support staff work tirelessly to ensure every patient receives the best possible treatment."
+                  className="text-body text-ink mb-6 leading-relaxed"
+                  progress={aboutScrollProgress}
+                  range={[0.45, 0.85]}
+                />
 
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-7">
-                {[
-                  { label: "NABH Accredited", icon: Award },
-                  { label: "5 Modular OT", icon: ShieldCheck },
-                  { label: "24/7 Emergency", icon: Clock },
-                  { label: "100+ Beds", icon: Award },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg bg-white border border-gray-100/80 shadow-subtle">
-                    <div className="w-9 h-9 rounded-md bg-teal-50 flex items-center justify-center shrink-0">
-                      <item.icon className="w-4 h-4 text-teal-600" />
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-7">
+                  {[
+                    { label: "NABH Accredited", icon: Award },
+                    { label: "5 Modular OT", icon: ShieldCheck },
+                    { label: "24/7 Emergency", icon: Clock },
+                    { label: "100+ Beds", icon: Award },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg bg-white border border-gray-100/80 shadow-subtle">
+                      <div className="w-9 h-9 rounded-md bg-teal-50 flex items-center justify-center shrink-0">
+                        <item.icon className="w-4 h-4 text-teal-600" />
+                      </div>
+                      <span className="text-xs sm:text-sm text-ink-200 font-medium leading-tight">{item.label}</span>
                     </div>
-                    <span className="text-xs sm:text-sm text-ink-200 font-medium leading-tight">{item.label}</span>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              <Link href="/about" className="inline-block">
-                <MagneticButton strength={0.15}>
-                  <span className="btn-secondary gap-2 h-11 px-6 text-sm font-semibold rounded-lg group shadow-sm">
-                    Learn More About Us
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </MagneticButton>
-              </Link>
-            </Reveal>
+                <Link href="/about" className="inline-block">
+                  <MagneticButton strength={0.15}>
+                    <span className="btn-secondary gap-2 h-11 px-6 text-sm font-semibold rounded-lg group shadow-sm">
+                      Learn More About Us
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </MagneticButton>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -353,28 +377,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
             {doctors.slice(0, 4).map((doc, i) => (
-              <Reveal key={doc.id} delay={i * 0.1}>
-                <Link href="/doctors" className="card card-hover overflow-hidden group block h-full">
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    <ImageWithSkeleton
-                      src={doc.image}
-                      alt={doc.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <div className="p-5">
-                    <div className="text-xs font-semibold text-teal-600 mb-1.5">{doc.specialty}</div>
-                    <h4 className="heading-display text-h4 mb-1">{doc.name}</h4>
-                    <p className="text-sm text-ink-50 mb-3 line-clamp-1">{doc.qualification}</p>
-                    <div className="flex items-center gap-2 text-xs text-ink-50">
-                      <Award className="w-3.5 h-3.5 text-teal-600" />
-                      {doc.experience} Experience
-                    </div>
-                  </div>
-                </Link>
+              <Reveal key={doc.id} delay={i * 0.1} className="h-full">
+                <DoctorCard doctor={doc} href="/doctors" />
               </Reveal>
             ))}
           </div>

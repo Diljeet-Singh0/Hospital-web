@@ -113,8 +113,8 @@ export default function StatsScrollPin({ stats }: Props) {
     const deltaY = containerCenterY - slotCenterY;
 
     const width = window.innerWidth;
-    // Responsive scale factor for the big hero number
-    const targetScale = width < 640 ? 1.7 : width < 1024 ? 2.1 : 2.5;
+    // ponytail: reduced scale from 2.5/2.1/1.7 to keep section compact
+    const targetScale = width < 640 ? 1.3 : width < 1024 ? 1.5 : 1.8;
 
     setOffset({ x: deltaX, y: deltaY, scale: targetScale });
   };
@@ -153,21 +153,21 @@ export default function StatsScrollPin({ stats }: Props) {
   // Motion transforms driven by scroll position
   // 1. Slot 1 (22+ Years of Excellence): starts big and centered, shrinks and glides to slot
   const slot1X = useTransform(scrollYProgress, (v) =>
-    mounted ? interpolate(v, 0.15, 0.65, offset.x, 0) : 0
+    mounted ? interpolate(v, 0.12, 0.55, offset.x, 0) : 0
   );
   const slot1Y = useTransform(scrollYProgress, (v) =>
-    mounted ? interpolate(v, 0.15, 0.65, offset.y, 0) : 0
+    mounted ? interpolate(v, 0.12, 0.55, offset.y, 0) : 0
   );
   const slot1Scale = useTransform(scrollYProgress, (v) =>
-    mounted ? interpolate(v, 0.15, 0.65, offset.scale, 1) : 1
+    mounted ? interpolate(v, 0.12, 0.55, offset.scale, 1) : 1
   );
 
   // Hero elements (tagline, badge) fade out as 22+ moves into position
   const heroDecorOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.08, 0.25, 1, 0)
+    interpolate(v, 0.06, 0.22, 1, 0)
   );
   const heroDecorY = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.08, 0.25, 0, -15)
+    interpolate(v, 0.06, 0.22, 0, -12)
   );
 
   // Scroll hint pill at bottom fades away quickly on initial scroll
@@ -180,49 +180,49 @@ export default function StatsScrollPin({ stats }: Props) {
 
   // Section title & eyebrow at the top fade in as the numbers organize
   const headerOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.25, 0.55, 0, 1)
+    interpolate(v, 0.22, 0.48, 0, 1)
   );
   const headerY = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.25, 0.55, -20, 0)
+    interpolate(v, 0.22, 0.48, -16, 0)
   );
 
   // Slots 2, 3, 4 fade in and slide up smoothly into their original size
   const stat2Opacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.3, 0.58, 0, 1)
+    interpolate(v, 0.26, 0.5, 0, 1)
   );
   const stat2Y = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.3, 0.58, 35, 0)
+    interpolate(v, 0.26, 0.5, 28, 0)
   );
   const stat2Scale = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.3, 0.58, 0.9, 1)
+    interpolate(v, 0.26, 0.5, 0.92, 1)
   );
 
   const stat3Opacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.36, 0.64, 0, 1)
+    interpolate(v, 0.32, 0.56, 0, 1)
   );
   const stat3Y = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.36, 0.64, 35, 0)
+    interpolate(v, 0.32, 0.56, 28, 0)
   );
   const stat3Scale = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.36, 0.64, 0.9, 1)
+    interpolate(v, 0.32, 0.56, 0.92, 1)
   );
 
   const stat4Opacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.42, 0.7, 0, 1)
+    interpolate(v, 0.38, 0.62, 0, 1)
   );
   const stat4Y = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.42, 0.7, 35, 0)
+    interpolate(v, 0.38, 0.62, 28, 0)
   );
   const stat4Scale = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.42, 0.7, 0.9, 1)
+    interpolate(v, 0.38, 0.62, 0.92, 1)
   );
 
   // Background ambient glow pulse & tracking
   const glowScale = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.15, 0.65, 1.4, 0.9)
+    interpolate(v, 0.12, 0.55, 1.3, 0.9)
   );
   const glowOpacity = useTransform(scrollYProgress, (v) =>
-    interpolate(v, 0.15, 0.65, 0.35, 0.15)
+    interpolate(v, 0.12, 0.55, 0.3, 0.15)
   );
 
   // Sleek progress bar at bottom showing completion through the pinned sequence
@@ -245,16 +245,17 @@ export default function StatsScrollPin({ stats }: Props) {
       </div>
 
       {/* Interactive scroll-pinned experience */}
+      {/* ponytail: reduced from 250vh to 180vh for compact scroll distance */}
       <div className="motion-reduce:hidden">
         <section
           ref={sectionRef}
           className="relative"
-          style={{ height: "250vh" }}
+          style={{ height: "180vh" }}
         >
-          {/* Sticky Viewport Container: stays pinned while scrolling 0 -> 1 */}
+          {/* Sticky Container: reduced from h-screen to h-[75vh] for compact feel */}
           <div
             ref={containerRef}
-            className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-gradient-to-b from-teal-700 via-teal-800 to-teal-900 text-white select-none"
+            className="sticky top-0 h-[75vh] w-full flex flex-col justify-center items-center overflow-hidden bg-gradient-to-b from-teal-700 via-teal-800 to-teal-900 text-white select-none pt-16"
           >
             {/* Ambient Background Glows */}
             <motion.div
@@ -340,7 +341,7 @@ export default function StatsScrollPin({ stats }: Props) {
                         opacity: heroDecorOpacity,
                         y: heroDecorY,
                       }}
-                      className="text-teal-200/90 text-xs sm:text-sm mt-3 max-w-[260px] sm:max-w-sm text-center leading-relaxed font-normal"
+                      className="text-teal-200/90 text-[11px] sm:text-xs mt-2 max-w-[220px] sm:max-w-xs text-center leading-relaxed font-normal"
                     >
                       NABH Accredited Super Multispeciality Hospital serving
                       Punjab with world-class medical innovation since 2002.
