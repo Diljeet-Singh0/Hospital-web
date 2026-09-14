@@ -73,21 +73,18 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-350 ease-out",
-          scrolled ? "pt-2 sm:pt-3.5 px-2.5 sm:px-6" : "pt-0 px-0"
-        )}
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 ease-out pt-0 px-0"
       >
         <div
           className={cn(
-            "pointer-events-auto transition-all duration-700 ease-out flex items-center",
+            "pointer-events-auto transition-all duration-500 ease-out flex items-center w-full border-b border-[#EAE6DF] px-4 sm:px-8 lg:px-12",
             scrolled
-              ? "w-full max-w-[1320px] mx-auto h-[48px] sm:h-[52px] rounded-xl sm:rounded-[18px] bg-white/95 backdrop-blur-md border border-gray-200/80 shadow-[0_8px_30px_rgba(15,110,110,0.06),0_1px_3px_rgba(0,0,0,0.04)] px-3 sm:px-6 lg:px-7"
-              : "w-full h-[64px] sm:h-[72px] rounded-none bg-white border-b border-gray-100/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)] px-3.5 sm:px-8 lg:px-10",
+              ? "h-[54px] sm:h-[60px] bg-[#FAF8F5]/98 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.02)]"
+              : "h-[66px] sm:h-[74px] bg-[#FAF8F5]/90 backdrop-blur-sm",
             !isNavbarReady && "bg-transparent! border-transparent! shadow-none!"
           )}
         >
-          <div className="w-full max-w-[1360px] mx-auto flex items-center justify-between">
+          <div className="w-full max-w-[1380px] mx-auto flex items-center justify-between">
             {/* ═══ 1. PAARVATI LOGO SECTION (Persistent, single animated logo) ═══ */}
             <motion.div
               ref={logoRef}

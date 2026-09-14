@@ -102,64 +102,64 @@ export default function DoctorCard({
         <div
           onClick={handleCardClick}
           className={cn(
-            "card card-hover overflow-hidden h-full flex flex-col bg-white border border-gray-100 rounded-2xl shadow-subtle group transition-all duration-300 cursor-pointer relative",
-            isCharging && "border-teal-400/60 shadow-lg shadow-teal-300/25"
+            "card overflow-hidden h-full flex flex-col bg-white border border-[#EAE6DF] rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.02)] group transition-all duration-500 cursor-pointer relative hover:border-teal-800/40 hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)]",
+            isCharging && "border-teal-700/60 shadow-[0_0_20px_rgba(15,110,110,0.12)]"
           )}
         >
-          <div className="relative aspect-[4/5] w-full overflow-hidden bg-gray-100 rounded-t-2xl">
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-stone-100">
             <Image
               src={doctor.image}
               alt={doctor.name}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               priority={false}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-900/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             
             {/* Experience Pill */}
-            <div className="absolute top-3 right-3 px-2.5 py-1 bg-white/90 backdrop-blur rounded-full border border-gray-100 shadow-xs pointer-events-none">
-              <span className="text-[11px] font-semibold text-teal-700">
+            <div className="absolute top-3 right-3 px-2.5 py-0.5 bg-white/95 backdrop-blur-sm rounded-md border border-[#EAE6DF] shadow-xs pointer-events-none">
+              <span className="text-[10px] font-mono text-teal-800 font-medium">
                 {doctor.experience}
               </span>
             </div>
           </div>
 
-          <div className="p-5 flex flex-col flex-grow justify-between">
+          <div className="p-4 sm:p-5 flex flex-col flex-grow justify-between">
             <div>
-              <div className="text-xs font-semibold text-teal-600 mb-1 tracking-wide uppercase">
+              <div className="text-[10px] font-mono tracking-widest uppercase text-teal-800 font-medium mb-1">
                 {doctor.specialty}
               </div>
-              <h3 className="heading-display text-h4 mb-1 text-ink group-hover:text-teal-700 transition-colors">
+              <h3 className="heading-display text-lg sm:text-xl mb-1 text-ink font-normal group-hover:text-teal-900 transition-colors leading-tight">
                 {doctor.name}
               </h3>
-              <p className="text-sm text-ink-50 line-clamp-1 mb-3">
+              <p className="text-xs text-stone-500 line-clamp-1 mb-3">
                 {doctor.qualification}
               </p>
             </div>
-            <div className="flex items-center justify-between pt-3 border-t border-gray-100 text-xs text-ink-50">
-              <span className="inline-flex items-center gap-1.5">
-                <Award className="w-3.5 h-3.5 text-teal-600 flex-shrink-0" />
-                <span className="truncate max-w-[140px]">{doctor.achievements[0]}</span>
+            <div className="flex items-center justify-between pt-3 border-t border-[#EAE6DF] text-xs text-stone-500">
+              <span className="inline-flex items-center gap-1.5 truncate max-w-[130px] text-[11px]">
+                <Award className="w-3.5 h-3.5 text-teal-700 shrink-0" />
+                <span className="truncate">{doctor.achievements[0]}</span>
               </span>
-              <span className="inline-flex items-center gap-1 text-coral-500 font-medium group-hover:translate-x-0.5 transition-transform">
-                View Profile
-                <ArrowRight className="w-3.5 h-3.5" />
+              <span className="inline-flex items-center gap-1 text-teal-800 font-medium text-[11px] group-hover:text-coral-500 transition-colors">
+                Profile
+                <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
               </span>
             </div>
           </div>
 
-          {/* 1.5s Charging Progress Bar */}
+          {/* 1.0s Charging Progress Bar */}
           <AnimatePresence>
             {isCharging && (
               <motion.div
-                className="absolute bottom-0 left-0 right-0 h-[3px] bg-gray-100/80 overflow-hidden rounded-b-2xl"
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-stone-100 overflow-hidden"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, transition: { duration: 0.12 } }}
               >
                 <motion.div
-                  className="h-full bg-gradient-to-r from-teal-400 via-teal-500 to-coral-400 rounded-full"
+                  className="h-full bg-teal-700"
                   initial={{ width: "0%" }}
                   animate={{ width: "100%" }}
                   transition={{ duration: 1.0, ease: "linear" }}
