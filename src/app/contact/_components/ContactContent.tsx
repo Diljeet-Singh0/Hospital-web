@@ -78,10 +78,10 @@ export default function ContactContent() {
 
   return (
     <div>
-      <section className="relative py-12 lg:py-20 overflow-hidden">
+      <section className="relative py-8 sm:py-12 lg:py-20 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-teal-200/40 rounded-full blur-3xl" />
-          <div className="absolute bottom-[-10%] left-0 w-[500px] h-[500px] bg-coral-400/15 rounded-full blur-3xl" />
+          <div className="absolute top-[-10%] right-[-10%] w-[320px] sm:w-[600px] h-[320px] sm:h-[600px] bg-teal-200/40 rounded-full blur-3xl" />
+          <div className="absolute bottom-[-10%] left-0 w-[260px] sm:w-[500px] h-[260px] sm:h-[500px] bg-coral-400/15 rounded-full blur-3xl" />
         </div>
         <div className="container-lg relative">
           <div className="max-w-4xl">
@@ -89,14 +89,14 @@ export default function ContactContent() {
               <span className="eyebrow">Get in Touch</span>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="heading-display text-hero-sm lg:text-hero mb-6 leading-[1.05]">
+              <h1 className="heading-display text-[32px] sm:text-h1 lg:text-hero mb-4 sm:mb-6 leading-[1.12] sm:leading-[1.05]">
                 Let's Take the
                 <br />
                 <span className="gradient-text">First Step Together.</span>
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-body-lg text-ink-50 max-w-2xl leading-relaxed">
+              <p className="text-sm sm:text-body-lg text-ink-50 max-w-2xl leading-relaxed">
                 Whether you're booking a consultation, seeking a second opinion, or just have a
                 question — we're here to help. Our team responds within 2 hours during OPD hours.
               </p>
@@ -108,18 +108,18 @@ export default function ContactContent() {
       <section className="pb-12">
         <div className="container-lg">
           <Reveal>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-14">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 mb-10 sm:mb-14">
               {contactInfo.map((item, i) => (
                 <div
                   key={i}
-                  className="card p-6 group hover:border-teal-200"
+                  className="card p-4 sm:p-6 group hover:border-teal-200"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-teal-50 group-hover:bg-teal-600 flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110">
-                    <item.icon className="w-5 h-5 text-teal-600 group-hover:text-white transition-colors duration-300" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-teal-50 group-hover:bg-teal-600 flex items-center justify-center mb-3.5 sm:mb-5 transition-all duration-300 group-hover:scale-110">
+                    <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-teal-600 group-hover:text-white transition-colors duration-300" />
                   </div>
-                  <h4 className="font-semibold text-ink mb-2">{item.title}</h4>
+                  <h4 className="font-semibold text-ink text-sm sm:text-base mb-1.5 sm:mb-2">{item.title}</h4>
                   {item.lines.map((l, j) => (
-                    <p key={j} className="text-sm text-ink-50 leading-relaxed">{l}</p>
+                    <p key={j} className="text-xs sm:text-sm text-ink-50 leading-relaxed">{l}</p>
                   ))}
                 </div>
               ))}
@@ -129,7 +129,7 @@ export default function ContactContent() {
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-10">
             <Reveal className="lg:col-span-5">
               <div className="card p-0 overflow-hidden h-full lg:sticky lg:top-28">
-                <div className="h-80 w-full bg-gray-200">
+                <div className="h-56 sm:h-80 w-full bg-gray-200">
                   <iframe
                     src={hospitalInfo.mapUrl}
                     width="100%"
@@ -141,13 +141,13 @@ export default function ContactContent() {
                     title="Hospital Location"
                   />
                 </div>
-                <div className="p-6 sm:p-8">
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center">
-                      <MapPin className="w-5 h-5 text-teal-600" />
+                <div className="p-4 sm:p-8">
+                  <div className="flex items-center gap-3 mb-4 sm:mb-5">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-teal-50 flex items-center justify-center shrink-0">
+                      <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-teal-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-ink">Hospital Location</h4>
+                      <h4 className="font-semibold text-ink text-sm sm:text-base">Hospital Location</h4>
                       <p className="text-xs text-ink-50">Smt. Paarvati Devi Hospital</p>
                     </div>
                   </div>
@@ -176,33 +176,33 @@ export default function ContactContent() {
                         update("type", tab.id);
                         setSubmitted(false);
                       }}
-                      className={`flex-1 px-6 py-5 text-sm font-semibold flex items-center justify-center gap-2 border-b-2 transition-colors ${
+                      className={`flex-1 px-3 sm:px-6 py-3.5 sm:py-5 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 sm:gap-2 border-b-2 transition-colors ${
                         form.type === tab.id
                           ? "border-coral-500 text-coral-500 bg-coral-500/5"
                           : "border-transparent text-ink-50 hover:text-ink"
                       }`}
                     >
-                      <tab.icon className="w-4 h-4" />
+                      <tab.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       {tab.label}
                     </button>
                   ))}
                 </div>
 
-                <div className="p-6 sm:p-8">
+                <div className="p-4 sm:p-8">
                   {submitted ? (
                     <div className="py-10 text-center">
-                      <div className="w-20 h-20 mx-auto rounded-full bg-teal-100 flex items-center justify-center mb-5">
-                        <CheckCircle2 className="w-10 h-10 text-teal-600" />
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-teal-100 flex items-center justify-center mb-4 sm:mb-5">
+                        <CheckCircle2 className="w-8 h-8 sm:w-10 sm:h-10 text-teal-600" />
                       </div>
-                      <h3 className="heading-display text-h3 mb-2">Thank You!</h3>
-                      <p className="text-ink-50 max-w-sm mx-auto">
+                      <h3 className="heading-display text-xl sm:text-h3 mb-2">Thank You!</h3>
+                      <p className="text-sm sm:text-base text-ink-50 max-w-sm mx-auto">
                         {form.type === "appointment"
                           ? "Your appointment request has been received. Our team will confirm within 2 hours."
                           : "Your message has been sent. Our team will get back to you shortly."}
                       </p>
                     </div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                       <div className="grid sm:grid-cols-2 gap-5">
                         <div>
                           <label className="label-base">Full Name *</label>
@@ -313,13 +313,13 @@ export default function ContactContent() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-20 bg-white/60">
+      <section className="py-10 sm:py-16 lg:py-20 bg-white/60">
         <div className="container-lg">
-          <div className="grid md:grid-cols-3 gap-6 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
             <Reveal>
-              <div className="text-center md:text-left">
+              <div className="text-center md:text-left mb-2 md:mb-0">
                 <span className="eyebrow">Quick Access</span>
-                <h2 className="heading-display text-h2 max-w-md">
+                <h2 className="heading-display text-2xl sm:text-h2 max-w-md">
                   Everything You <span className="gradient-text">Need</span>
                 </h2>
               </div>
@@ -339,15 +339,15 @@ export default function ContactContent() {
               },
             ].map((item, i) => (
               <Reveal key={i} delay={(i + 1) * 0.1}>
-                <div className="card p-6 h-full hover:border-teal-200 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 font-display font-bold text-7xl text-teal-100/60 leading-none select-none pr-3">
+                <div className="card p-4 sm:p-6 h-full hover:border-teal-200 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 font-display font-bold text-5xl sm:text-7xl text-teal-100/60 leading-none select-none pr-3">
                     {item.num}
                   </div>
-                  <h4 className="font-display text-h4 mb-2 relative z-10">{item.title}</h4>
-                  <p className="text-sm text-ink-50 leading-relaxed mb-4 relative z-10">{item.desc}</p>
+                  <h4 className="font-display text-base sm:text-h4 mb-1.5 sm:mb-2 relative z-10">{item.title}</h4>
+                  <p className="text-xs sm:text-sm text-ink-50 leading-relaxed mb-3 sm:mb-4 relative z-10">{item.desc}</p>
                   <a
                     href={`tel:${item.phone}`}
-                    className="text-teal-600 font-semibold text-sm inline-flex items-center gap-1 hover:text-coral-500 transition-colors relative z-10"
+                    className="text-teal-600 font-semibold text-xs sm:text-sm inline-flex items-center gap-1 hover:text-coral-500 transition-colors relative z-10"
                   >
                     {item.phone} →
                   </a>

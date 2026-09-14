@@ -53,9 +53,15 @@ body {
 @layer components {
   .container-lg {
     max-width: 1440px;
-    width: calc(100% - 32px);
+    width: calc(100% - 24px);
     margin-left: auto;
     margin-right: auto;
+  }
+
+  @media (min-width: 640px) {
+    .container-lg {
+      width: calc(100% - 32px);
+    }
   }
 
   @media (min-width: 768px) {
@@ -71,26 +77,26 @@ body {
   }
 
   .section-padding {
-    padding-top: clamp(56px, 6vw, 96px);
-    padding-bottom: clamp(56px, 6vw, 96px);
+    padding-top: clamp(40px, 5vw, 96px);
+    padding-bottom: clamp(40px, 5vw, 96px);
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 bg-coral-500 text-white text-sm font-semibold rounded-lg
+    @apply inline-flex items-center justify-center px-4 sm:px-5 py-2.5 bg-coral-500 text-white text-sm font-semibold rounded-lg
            transition-all duration-300 shadow-subtle hover:bg-coral-600 hover:shadow-card
-           focus:outline-none focus:ring-2 focus:ring-coral-500 focus:ring-offset-2;
+           focus:outline-none focus:ring-2 focus:ring-coral-500 focus:ring-offset-2 active:scale-[0.98];
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-lg
+    @apply inline-flex items-center justify-center px-4 sm:px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-lg
            transition-all duration-300 shadow-subtle hover:bg-teal-700 hover:shadow-card
-           focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2;
+           focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 active:scale-[0.98];
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center px-5 py-2.5 border border-teal-600 text-teal-600 text-sm font-semibold rounded-lg
+    @apply inline-flex items-center justify-center px-4 sm:px-5 py-2.5 border border-teal-600 text-teal-600 text-sm font-semibold rounded-lg
            transition-all duration-300 hover:bg-teal-600 hover:text-white
-           focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2;
+           focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 active:scale-[0.98];
   }
 
   .card {
@@ -102,7 +108,7 @@ body {
   }
 
   .input-base {
-    @apply w-full px-4 py-3 bg-white border border-gray-200 rounded-sm-card text-ink
+    @apply w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-white border border-gray-200 rounded-sm-card text-ink text-[16px] sm:text-sm
            placeholder:text-ink-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent
            transition-all duration-200;
   }

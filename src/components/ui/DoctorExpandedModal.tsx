@@ -114,7 +114,7 @@ export default function DoctorExpandedModal({
   return (
     <AnimatePresence>
       <div
-        className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 lg:p-10 overflow-y-auto"
+        className="fixed inset-0 z-[120] flex items-start sm:items-center justify-center p-3 sm:p-6 lg:p-10 overflow-y-auto"
         role="dialog"
         aria-label={`${doctor.name} profile`}
       >
@@ -134,7 +134,7 @@ export default function DoctorExpandedModal({
           animate={{ opacity: 1, scale: 1, transition: { delay: 0.15 } }}
           exit={{ opacity: 0, scale: 0.8 }}
           onClick={onClose}
-          className="fixed top-5 right-5 sm:top-7 sm:right-8 z-30 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white/90 hover:text-white backdrop-blur-md border border-white/15 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
+          className="fixed top-4 right-4 sm:top-7 sm:right-8 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/20 text-white/90 hover:text-white backdrop-blur-md border border-white/15 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
           aria-label="Close modal"
         >
           <X className="w-5 h-5" />
@@ -146,7 +146,7 @@ export default function DoctorExpandedModal({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.96 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-20 w-full max-w-6xl mx-auto py-6"
+          className="relative z-20 w-full max-w-6xl mx-auto py-8 sm:py-6"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
             {/* ═══ COLUMN 1: White Info Card (Left) ═══ */}
@@ -156,10 +156,10 @@ export default function DoctorExpandedModal({
               transition={{ delay: 0.1, duration: 0.4 }}
               className="lg:col-span-4 order-2 lg:order-1"
             >
-              <div className="bg-white rounded-[28px] shadow-2xl text-gray-900 border border-white/20 max-h-[82vh] flex flex-col overflow-hidden">
+              <div className="bg-white rounded-2xl sm:rounded-[28px] shadow-2xl text-gray-900 border border-white/20 max-h-none lg:max-h-[82vh] flex flex-col overflow-hidden">
                 {/* Scrollable Body with Clean Inset Scrollbar */}
-                <div className="flex-1 overflow-y-auto p-6 sm:p-7 pb-3 pr-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-300 hover:[&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-full">
-                  <h3 className="text-xl sm:text-2xl font-display font-bold text-gray-950 mb-1">
+                <div className="flex-1 overflow-y-auto p-5 sm:p-7 pb-3 pr-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-300 hover:[&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-full">
+                  <h3 className="text-lg sm:text-2xl font-display font-bold text-gray-950 mb-1">
                     {doctor.name}
                   </h3>
                   <div className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
@@ -290,9 +290,9 @@ export default function DoctorExpandedModal({
               transition={{ delay: 0.2, duration: 0.4 }}
               className="lg:col-span-4 order-3 text-white pl-0 lg:pl-2"
             >
-              <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-bold leading-[1.12] tracking-tight mb-3">
+              <h2 className="text-2xl sm:text-4xl lg:text-[40px] font-bold leading-[1.15] sm:leading-[1.12] tracking-tight mb-3">
                 Lifelong Health, One Step<br />
-                <span className="font-pixel text-2xl sm:text-3xl lg:text-[34px] tracking-wider text-teal-300 block mt-2">
+                <span className="font-pixel text-xl sm:text-3xl lg:text-[34px] tracking-wider text-teal-300 block mt-2">
                   at a Time
                 </span>
               </h2>

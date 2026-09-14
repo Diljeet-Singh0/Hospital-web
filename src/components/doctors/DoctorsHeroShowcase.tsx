@@ -90,7 +90,7 @@ export default function DoctorsHeroShowcase() {
 
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center gap-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-medium px-7 py-3 rounded-xl shadow-lg shadow-blue-500/25 transition-all hover:scale-105 active:scale-95"
+            className="inline-flex items-center justify-center gap-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-medium px-6 sm:px-7 py-3 rounded-xl shadow-lg shadow-blue-500/25 transition-all hover:scale-105 active:scale-95 w-full sm:w-auto"
           >
             <Calendar className="w-4 h-4" />
             Book an appointment
@@ -100,18 +100,18 @@ export default function DoctorsHeroShowcase() {
         {/* ═══ INTERACTIVE SHOWCASE LAYOUT (Matching 2nd Image) ═══ */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
           {/* ── LEFT PANEL: Our Popular Expertise List ── */}
-          <div className="lg:col-span-4 bg-[#1b1e24]/90 border border-white/10 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col justify-between">
+          <div className="lg:col-span-4 bg-[#1b1e24]/90 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="text-white font-semibold text-lg tracking-tight">
+              <div className="flex items-center justify-between mb-4 sm:mb-5">
+                <h2 className="text-white font-semibold text-base sm:text-lg tracking-tight">
                   Our Popular Expertise List
                 </h2>
-                <span className="text-xs text-teal-400 font-mono bg-teal-500/10 border border-teal-500/20 px-2.5 py-1 rounded-full">
+                <span className="text-[11px] sm:text-xs text-teal-400 font-mono bg-teal-500/10 border border-teal-500/20 px-2.5 py-1 rounded-full">
                   Verified Doctors
                 </span>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 {popularDoctors.map((doc) => {
                   const isSelected = selectedDoctor.id === doc.id;
                   const isCharging = hoveringDoctorId === doc.id;
@@ -123,14 +123,14 @@ export default function DoctorsHeroShowcase() {
                       onMouseLeave={cancelHoverTimer}
                       onClick={() => handleClickDoctor(doc)}
                       className={cn(
-                        "group relative rounded-2xl p-3 flex items-center justify-between transition-all duration-200 cursor-pointer border overflow-hidden",
+                        "group relative rounded-xl sm:rounded-2xl p-2.5 sm:p-3 flex items-center justify-between transition-all duration-200 cursor-pointer border overflow-hidden",
                         isSelected
                           ? "bg-white/10 border-white/20 shadow-md"
                           : "bg-white/[0.03] border-white/5 hover:bg-white/[0.07] hover:border-white/15"
                       )}
                     >
-                      <div className="flex items-center gap-3.5 z-10">
-                        <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-gray-800 shrink-0 border border-white/10">
+                      <div className="flex items-center gap-3 z-10">
+                        <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden bg-gray-800 shrink-0 border border-white/10">
                           <Image
                             src={doc.image}
                             alt={doc.name}
@@ -149,8 +149,8 @@ export default function DoctorsHeroShowcase() {
                         </div>
                       </div>
 
-                      <div className="z-10 w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-gray-300 group-hover:bg-[#2563eb] group-hover:border-[#2563eb] group-hover:text-white transition-all">
-                        <ArrowUpRight className="w-4 h-4" />
+                      <div className="z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-white/20 flex items-center justify-center text-gray-300 group-hover:bg-[#2563eb] group-hover:border-[#2563eb] group-hover:text-white transition-all">
+                        <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </div>
 
                       {/* 1.5s Hover Progress on item */}
@@ -177,25 +177,25 @@ export default function DoctorsHeroShowcase() {
               </div>
             </div>
 
-            <div className="pt-5 mt-5 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+            <div className="pt-4 sm:pt-5 mt-4 sm:mt-5 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-teal-400" />
                 NABH Accredited Team
               </span>
               <span className="text-gray-400">
-                Hover to preview
+                Tap or hover to view
               </span>
             </div>
           </div>
 
           {/* ── CENTER / RIGHT GRID ── */}
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
             {/* ═══ CARD 1: Featured Selected Doctor Card ═══ */}
             <div
               onMouseEnter={() => startHoverTimer(selectedDoctor)}
               onMouseLeave={cancelHoverTimer}
               onClick={() => handleClickDoctor(selectedDoctor)}
-              className="relative aspect-[3/4] sm:aspect-auto rounded-3xl overflow-hidden border border-white/10 group cursor-pointer shadow-2xl bg-gray-900 flex flex-col justify-end p-5"
+              className="relative aspect-[4/5] sm:aspect-auto min-h-[260px] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 group cursor-pointer shadow-2xl bg-gray-900 flex flex-col justify-end p-4 sm:p-5"
             >
               <Image
                 src={selectedDoctor.image}

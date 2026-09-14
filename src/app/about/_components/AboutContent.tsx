@@ -58,10 +58,10 @@ const milestones = [
 export default function AboutContent() {
   return (
     <div>
-      <section className="relative py-12 lg:py-20 overflow-hidden">
+      <section className="relative py-8 sm:py-12 lg:py-20 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-teal-200/40 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-coral-400/15 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-[320px] sm:w-[600px] h-[320px] sm:h-[600px] bg-teal-200/40 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-[260px] sm:w-[500px] h-[260px] sm:h-[500px] bg-coral-400/15 rounded-full blur-3xl" />
         </div>
         <div className="container-lg relative">
           <div className="max-w-4xl">
@@ -69,7 +69,7 @@ export default function AboutContent() {
               <span className="eyebrow">About Paarvati Hospital</span>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="heading-display text-hero-sm lg:text-hero mb-6 leading-[1.05]">
+              <h1 className="heading-display text-[32px] sm:text-h1 lg:text-hero mb-4 sm:mb-6 leading-[1.12] sm:leading-[1.05]">
                 22 Years of{" "}
                 <span className="gradient-text">Healing</span>,
                 <br />
@@ -77,7 +77,7 @@ export default function AboutContent() {
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-body-lg text-ink-50 max-w-2xl leading-relaxed">
+              <p className="text-sm sm:text-body-lg text-ink-50 max-w-2xl leading-relaxed">
                 What began as a modest 30-bed facility in 2003 has grown into one of Punjab's
                 most trusted Super Multispeciality Hospitals—standing on a foundation of trust,
                 expertise, and 50,000+ restored smiles.
@@ -89,10 +89,10 @@ export default function AboutContent() {
 
       <section className="section-padding">
         <div className="container-lg">
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
             <Reveal className="lg:col-span-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                <div className="space-y-2.5 sm:space-y-4">
                   <ImageWithSkeleton
                     src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=500&auto=format&fit=crop"
                     alt="Hospital building exterior"
@@ -108,7 +108,7 @@ export default function AboutContent() {
                     className="rounded-card aspect-[5/4]"
                   />
                 </div>
-                <div className="space-y-4 pt-10">
+                <div className="space-y-2.5 sm:space-y-4 pt-4 sm:pt-10">
                   <ImageWithSkeleton
                     src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&auto=format&fit=crop"
                     alt="Doctor with patient consultation"
@@ -129,11 +129,11 @@ export default function AboutContent() {
 
             <Reveal className="lg:col-span-6" delay={0.15}>
               <span className="eyebrow">Our Story</span>
-              <h2 className="heading-display text-h2 mb-6 max-w-lg">
+              <h2 className="heading-display text-2xl sm:text-h2 mb-4 sm:mb-6 max-w-lg">
                 A Legacy Built on{" "}
                 <span className="gradient-text">Trust</span> & Excellence.
               </h2>
-              <div className="space-y-5 text-ink-50 leading-relaxed">
+              <div className="space-y-4 sm:space-y-5 text-sm sm:text-base text-ink-50 leading-relaxed">
                 <p>
                   Smt. Paarvati Devi Hospital was founded with a simple yet powerful vision:
                   to make world-class healthcare accessible to the people of Amritsar and the
@@ -153,17 +153,17 @@ export default function AboutContent() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mt-8">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-4 mt-6 sm:mt-8">
                 {[
                   { label: "Acres Campus", value: "2", icon: Building2 },
                   { label: "Specialists", value: "50+", icon: Stethoscope },
                   { label: "Support Staff", value: "200+", icon: Users },
                   { label: "Accreditations", value: "2+", icon: Award },
                 ].map((item, i) => (
-                  <div key={i} className="p-5 rounded-card bg-white border border-gray-100 shadow-subtle">
-                    <item.icon className="w-6 h-6 text-teal-600 mb-3" />
-                    <div className="font-display font-bold text-3xl text-ink mb-1">{item.value}</div>
-                    <div className="text-sm text-ink-50">{item.label}</div>
+                  <div key={i} className="p-3.5 sm:p-5 rounded-card bg-white border border-gray-100 shadow-subtle">
+                    <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-teal-600 mb-2 sm:mb-3" />
+                    <div className="font-display font-bold text-2xl sm:text-3xl text-ink mb-0.5 sm:mb-1">{item.value}</div>
+                    <div className="text-xs sm:text-sm text-ink-50">{item.label}</div>
                   </div>
                 ))}
               </div>
@@ -239,13 +239,13 @@ export default function AboutContent() {
                       </span>
                     </motion.div>
 
-                    {/* Milestone Card with directional slide */}
+                    {/* Milestone Card */}
                     <motion.div
-                      initial={{ opacity: 0, x: isEven ? -35 : 35, y: 15 }}
-                      whileInView={{ opacity: 1, x: 0, y: 0 }}
-                      viewport={{ once: true, margin: "-50px" }}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-20px" }}
                       transition={{
-                        duration: 0.55,
+                        duration: 0.5,
                         ease: [0.22, 1, 0.36, 1],
                         delay: 0.05,
                       }}
@@ -357,27 +357,27 @@ export default function AboutContent() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-20">
+      <section className="py-10 sm:py-16 lg:py-20">
         <div className="container-lg">
-          <div className="relative rounded-2xl bg-gradient-to-br from-teal-600 to-teal-800 p-8 lg:p-14 overflow-hidden">
+          <div className="relative rounded-2xl bg-gradient-to-br from-teal-600 to-teal-800 p-6 sm:p-8 lg:p-14 overflow-hidden">
             <div className="absolute inset-0 opacity-20 pointer-events-none">
-              <div className="absolute bottom-[-30%] right-[-10%] w-[500px] h-[500px] bg-coral-500 rounded-full blur-3xl" />
+              <div className="absolute bottom-[-30%] right-[-10%] w-[320px] sm:w-[500px] h-[320px] sm:h-[500px] bg-coral-500 rounded-full blur-3xl" />
             </div>
-            <div className="relative grid lg:grid-cols-12 gap-8 items-center">
+            <div className="relative grid lg:grid-cols-12 gap-6 sm:gap-8 items-center">
               <Reveal className="lg:col-span-8">
-                <h2 className="heading-display text-h2 text-white mb-3 max-w-2xl">
+                <h2 className="heading-display text-2xl sm:text-h2 text-white mb-3 max-w-2xl leading-snug sm:leading-tight">
                   Ready to Experience the Paarvati Difference?
                 </h2>
-                <p className="text-teal-100/90 text-body-lg max-w-xl">
+                <p className="text-teal-100/90 text-sm sm:text-body-lg max-w-xl">
                   Consult with our specialists, take a hospital tour, or simply drop by.
                   We're here for you 24/7.
                 </p>
               </Reveal>
               <Reveal className="lg:col-span-4 lg:text-right" delay={0.1}>
                 <div className="flex flex-col sm:flex-row lg:inline-flex gap-3">
-                  <Link href="/contact">
+                  <Link href="/contact" className="w-full sm:w-auto">
                     <MagneticButton>
-                      <span className="btn-primary w-full sm:w-auto">Book Appointment</span>
+                      <span className="btn-primary w-full sm:w-auto justify-center">Book Appointment</span>
                     </MagneticButton>
                   </Link>
                   <a href={`tel:${hospitalInfo.phone}`} className="btn-outline border-white/30 text-white hover:bg-white hover:text-teal-700 w-full sm:w-auto justify-center">

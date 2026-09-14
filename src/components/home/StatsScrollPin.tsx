@@ -37,17 +37,20 @@ function interpolate(
   return outStart + (outEnd - outStart) * ease;
 }
 
-/* ──────────────────────── Static Fallback (for reduced motion) ──────────────────────── */
+/* ──────────────────────── Static & Mobile Responsive Stats ──────────────────────── */
 function StaticStats({ stats }: Props) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-20px" });
+
   return (
-    <section className="section-padding bg-gradient-to-b from-teal-700 via-teal-800 to-teal-900 relative overflow-hidden text-white">
+    <section ref={sectionRef} className="py-12 sm:py-16 lg:py-24 bg-gradient-to-b from-teal-700 via-teal-800 to-teal-900 relative overflow-hidden text-white">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-400/15 rounded-full blur-[140px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[600px] h-[320px] sm:h-[600px] bg-teal-400/15 rounded-full blur-[100px] sm:blur-[140px]" />
       </div>
-      <div className="container-lg relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold tracking-wider uppercase text-teal-100 mb-3 shadow-sm">
-            <Award className="w-3.5 h-3.5 text-coral-400" />
+      <div className="container-lg relative z-10 mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-teal-100 mb-2.5 sm:mb-3 shadow-sm">
+            <Award className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-coral-400" />
             Milestones of Trust & Care
           </span>
           <h2 className="heading-display text-2xl sm:text-3xl lg:text-4xl text-white font-bold leading-tight">
@@ -55,21 +58,21 @@ function StaticStats({ stats }: Props) {
             <span className="text-coral-300">Commitment</span>
           </h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch justify-center max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 items-stretch justify-center max-w-7xl mx-auto w-full">
           {stats.slice(0, 4).map((stat, i) => {
             const Icon = STAT_ICONS[i] || Award;
             return (
               <div
                 key={stat.id}
-                className="p-6 sm:p-7 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-subtle flex flex-col items-center justify-center text-center h-full min-h-[180px] sm:min-h-[200px]"
+                className="p-4 sm:p-7 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-subtle flex flex-col items-center justify-center text-center h-full min-h-[140px] sm:min-h-[200px]"
               >
-                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-4 text-teal-200 shrink-0">
-                  <Icon className="w-6 h-6" />
+                <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-white/10 flex items-center justify-center mb-2.5 sm:mb-4 text-teal-200 shrink-0">
+                  <Icon className="w-4 h-4 sm:w-6 sm:h-6" />
                 </div>
-                <div className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-2 leading-none">
-                  <CountUpStat target={stat.value} suffix={stat.suffix} />
+                <div className="font-display font-bold text-2xl sm:text-4xl lg:text-6xl text-white mb-1 sm:mb-2 leading-none">
+                  <CountUpStat target={stat.value} suffix={stat.suffix} start={isInView} />
                 </div>
-                <div className="text-teal-100 font-medium text-sm sm:text-base leading-snug">
+                <div className="text-teal-100 font-medium text-xs sm:text-sm lg:text-base leading-snug">
                   {stat.label}
                 </div>
               </div>
@@ -224,18 +227,22 @@ export default function StatsScrollPin({ stats }: Props) {
 
   return (
     <>
-      {/* Fallback for reduced-motion users */}
-      <div className="motion-safe:hidden">
+      {/* Mobile devices (< md): fully responsive, non-clipping clean layout */}
+      <div className="md:hidden">
         <StaticStats stats={stats} />
       </div>
 
-      {/* Interactive scroll-pinned experience */}
-      <div className="motion-reduce:hidden">
-        <section
-          ref={sectionRef}
-          className="relative"
-          style={{ height: "220vh" }}
-        >
+      {/* Tablets & Desktops (>= md): interactive scroll-pinned experience */}
+      <div className="hidden md:block">
+        <div className="motion-safe:hidden">
+          <StaticStats stats={stats} />
+        </div>
+        <div className="motion-reduce:hidden">
+          <section
+            ref={sectionRef}
+            className="relative"
+            style={{ height: "220vh" }}
+          >
           {/* Full-height sticky container: avoids uneven bottom clipping */}
           <div
             ref={containerRef}
@@ -371,7 +378,8 @@ export default function StatsScrollPin({ stats }: Props) {
               </div>
             </div>
           </div>
-        </section>
+          </section>
+        </div>
       </div>
     </>
   );

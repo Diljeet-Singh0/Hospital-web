@@ -44,33 +44,33 @@ function CardContent({ testimonial: t }: { testimonial: Testimonial }) {
       {/* Top accent bar */}
       <div className="h-1.5 w-full bg-gradient-to-r from-teal-500 via-teal-400 to-coral-400" />
 
-      <div className="p-7 sm:p-9 flex flex-col flex-1">
+      <div className="p-5 sm:p-7 md:p-9 flex flex-col flex-1 justify-between">
         {/* Watermark quote */}
-        <Quote className="absolute top-8 right-8 w-20 h-20 text-teal-50/60 pointer-events-none" />
+        <Quote className="absolute top-6 right-6 sm:top-8 sm:right-8 w-12 h-12 sm:w-20 sm:h-20 text-teal-50/60 pointer-events-none" />
 
         {/* Stars + treatment badge */}
-        <div className="flex items-center justify-between mb-5 relative z-10">
+        <div className="flex items-center justify-between mb-3 sm:mb-5 relative z-10">
           <div className="flex gap-0.5">
             {Array.from({ length: t.rating }).map((_, i) => (
               <Star
                 key={i}
-                className="w-[18px] h-[18px] text-coral-500 fill-coral-500"
+                className="w-3.5 h-3.5 sm:w-[18px] sm:h-[18px] text-coral-500 fill-coral-500"
               />
             ))}
           </div>
-          <span className="text-[11px] font-semibold tracking-wide uppercase text-teal-700 bg-teal-50 px-2.5 py-1 rounded-full">
+          <span className="text-[10px] sm:text-[11px] font-semibold tracking-wide uppercase text-teal-700 bg-teal-50 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full">
             {t.treatment}
           </span>
         </div>
 
         {/* Review body */}
-        <p className="text-ink-200 text-body-lg leading-relaxed flex-1 mb-8 relative z-10">
+        <p className="text-ink-200 text-xs sm:text-sm md:text-base lg:text-body-lg leading-relaxed flex-1 mb-4 sm:mb-6 relative z-10 line-clamp-5 sm:line-clamp-none">
           &ldquo;{t.content}&rdquo;
         </p>
 
         {/* Reviewer */}
-        <div className="pt-5 border-t border-gray-100/80 flex items-center gap-4 relative z-10">
-          <div className="w-[52px] h-[52px] shrink-0 rounded-full overflow-hidden ring-2 ring-coral-400/30 shadow-subtle">
+        <div className="pt-3 sm:pt-5 border-t border-gray-100/80 flex items-center gap-3 sm:gap-4 relative z-10">
+          <div className="w-10 h-10 sm:w-[52px] sm:h-[52px] shrink-0 rounded-full overflow-hidden ring-2 ring-coral-400/30 shadow-subtle">
             <ImageWithSkeleton
               src={t.image}
               alt={t.name}
@@ -81,11 +81,11 @@ function CardContent({ testimonial: t }: { testimonial: Testimonial }) {
             />
           </div>
           <div>
-            <div className="font-display font-semibold text-ink text-[17px] leading-snug">
+            <div className="font-display font-semibold text-ink text-sm sm:text-[17px] leading-snug">
               {t.name}
             </div>
-            <div className="text-sm text-ink-50 mt-0.5 flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5 text-teal-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="text-xs sm:text-sm text-ink-50 mt-0.5 flex items-center gap-1.5">
+              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-teal-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
@@ -285,8 +285,7 @@ export default function TestimonialsScrollStack({ testimonials }: Props) {
                 {/* ── Right column: card stack ── */}
                 <div className="lg:col-span-8">
                   <div
-                    className="relative w-full mx-auto overflow-hidden rounded-card"
-                    style={{ height: "min(520px, 62vh)" }}
+                    className="relative w-full mx-auto overflow-hidden rounded-card h-[350px] sm:h-[430px] lg:h-[480px]"
                   >
                     {testimonials.map((t, i) => (
                       <StackCard

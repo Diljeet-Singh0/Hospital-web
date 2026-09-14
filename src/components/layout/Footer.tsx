@@ -25,7 +25,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation Links Columns */}
-          <div className="md:col-span-8 lg:col-span-7 grid grid-cols-3 gap-x-[20px] sm:gap-x-[28px]">
+          <div className="md:col-span-8 lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-x-5 sm:gap-x-[28px] gap-y-6 sm:gap-y-0">
             {/* Column 1: Company */}
             <div>
               <h4 className="text-white font-semibold text-[13.5px] mb-[10px]">
@@ -85,7 +85,7 @@ export default function Footer() {
             </div>
 
             {/* Column 3: Patient Resources */}
-            <div>
+            <div className="col-span-2 sm:col-span-1">
               <h4 className="text-white font-semibold text-[13.5px] mb-[10px]">
                 Patient Resources
               </h4>
@@ -116,8 +116,8 @@ export default function Footer() {
         </div>
 
         {/* ═══ MIDDLE SECTION: Rounded Bordered Bar (Location, Contact, Stay Always) ═══ */}
-        <div className="border border-white/20 rounded-[16px] sm:rounded-full px-[20px] sm:px-[30px] py-[11px] sm:py-[13px] my-[10px]">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-[12px] sm:gap-[20px] items-center">
+        <div className="border border-white/20 rounded-[18px] sm:rounded-full px-4 sm:px-[30px] py-3.5 sm:py-[13px] my-[10px]">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-[14px] sm:gap-[20px] items-center">
             {/* Location */}
             <div className="flex flex-col text-left">
               <span className="text-[11px] font-medium text-neutral-300 flex items-center gap-[6px] leading-tight">

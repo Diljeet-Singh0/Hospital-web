@@ -40,36 +40,36 @@ export default function Navbar() {
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-350 ease-out",
-          scrolled ? "pt-3 sm:pt-3.5 px-3 sm:px-6" : "pt-0 px-0"
+          scrolled ? "pt-2 sm:pt-3.5 px-2.5 sm:px-6" : "pt-0 px-0"
         )}
       >
         <div
           className={cn(
             "pointer-events-auto transition-all duration-350 ease-out flex items-center",
             scrolled
-              ? "w-full max-w-[1320px] mx-auto h-[52px] rounded-[18px] bg-white/92 backdrop-blur-md border border-gray-200/75 shadow-[0_8px_30px_rgba(15,110,110,0.06),0_1px_3px_rgba(0,0,0,0.04)] px-4 sm:px-6 lg:px-7"
-              : "w-full h-[72px] rounded-none bg-white border-b border-gray-100/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)] px-5 sm:px-8 lg:px-10"
+              ? "w-full max-w-[1320px] mx-auto h-[48px] sm:h-[52px] rounded-xl sm:rounded-[18px] bg-white/95 backdrop-blur-md border border-gray-200/80 shadow-[0_8px_30px_rgba(15,110,110,0.06),0_1px_3px_rgba(0,0,0,0.04)] px-3 sm:px-6 lg:px-7"
+              : "w-full h-[64px] sm:h-[72px] rounded-none bg-white border-b border-gray-100/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)] px-3.5 sm:px-8 lg:px-10"
           )}
         >
           <div className="w-full max-w-[1360px] mx-auto flex items-center justify-between">
             {/* ═══ 1. PAARVATI LOGO SECTION ═══ */}
             <Link
               href="/"
-              className="flex items-center gap-2.5 sm:gap-3 group shrink-0 select-none py-1"
+              className="flex items-center gap-2 sm:gap-3 group shrink-0 select-none py-1"
             >
               {/* Refined teal logo square with heart icon */}
               <div
                 className={cn(
                   "bg-teal-600 flex items-center justify-center shrink-0 transition-all duration-350 ease-out shadow-xs",
                   scrolled
-                    ? "w-8 h-8 rounded-lg"
-                    : "w-[38px] h-[38px] sm:w-[40px] sm:h-[40px] rounded-[10px] group-hover:bg-teal-700"
+                    ? "w-7 h-7 sm:w-8 sm:h-8 rounded-lg"
+                    : "w-[34px] h-[34px] sm:w-[40px] sm:h-[40px] rounded-[9px] sm:rounded-[10px] group-hover:bg-teal-700"
                 )}
               >
                 <Heart
                   className={cn(
                     "text-white fill-white transition-all duration-350 ease-out",
-                    scrolled ? "w-4 h-4" : "w-[18px] h-[18px] sm:w-5 sm:h-5"
+                    scrolled ? "w-3.5 h-3.5 sm:w-4 sm:h-4" : "w-4 h-4 sm:w-5 sm:h-5"
                   )}
                 />
               </div>
@@ -80,8 +80,8 @@ export default function Navbar() {
                   className={cn(
                     "font-display font-bold text-ink leading-none tracking-tight transition-all duration-350 ease-out group-hover:text-teal-700",
                     scrolled
-                      ? "text-[16.5px] sm:text-[17.5px]"
-                      : "text-[20px] sm:text-[21.5px]"
+                      ? "text-[15px] sm:text-[17.5px]"
+                      : "text-[17px] sm:text-[21.5px]"
                   )}
                 >
                   Paarvati
@@ -90,8 +90,8 @@ export default function Navbar() {
                   className={cn(
                     "font-bold uppercase text-ink-50 transition-all duration-350 ease-out leading-none",
                     scrolled
-                      ? "text-[7.5px] sm:text-[8px] tracking-[0.18em] mt-0.5"
-                      : "text-[8.5px] sm:text-[9px] tracking-[0.22em] mt-1"
+                      ? "text-[7px] sm:text-[8px] tracking-[0.16em] sm:tracking-[0.18em] mt-0.5"
+                      : "text-[7.5px] sm:text-[9px] tracking-[0.18em] sm:tracking-[0.22em] mt-0.5 sm:mt-1"
                   )}
                 >
                   Multispeciality
@@ -350,12 +350,69 @@ export default function Navbar() {
             </button>
           </div>
 
-          <nav className="flex-1 overflow-y-auto p-5">
+          <nav className="flex-1 overflow-y-auto p-4 sm:p-5">
             <div className="space-y-1">
               {navLinks.map((link) => {
                 const isActive =
                   pathname === link.href ||
                   (link.href !== "/" && pathname.startsWith(link.href));
+
+                if (link.name === "Specialities") {
+                  return (
+                    <div key={link.name} className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <Link
+                          href={link.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={cn(
+                            "flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                            isActive
+                              ? "bg-teal-50 text-teal-700 font-semibold"
+                              : "text-ink-200 hover:bg-teal-50 hover:text-teal-700"
+                          )}
+                        >
+                          {link.name}
+                        </Link>
+                        <button
+                          onClick={() => setSpecialitiesOpen(!specialitiesOpen)}
+                          className="p-2.5 text-ink-50 hover:text-teal-600 rounded-lg"
+                          aria-label="Toggle Specialities list"
+                        >
+                          <ChevronDown
+                            className={cn(
+                              "w-4 h-4 transition-transform duration-200",
+                              specialitiesOpen && "rotate-180 text-teal-600"
+                            )}
+                          />
+                        </button>
+                      </div>
+
+                      {specialitiesOpen && (
+                        <div className="pl-4 pr-1 py-1 space-y-0.5 border-l-2 border-teal-100 ml-4 mb-2">
+                          {[
+                            "Cardiology",
+                            "Neurosciences",
+                            "Orthopaedics",
+                            "Paediatrics",
+                            "Ophthalmology",
+                            "General Surgery",
+                            "Obstetrics & Gynaecology",
+                          ].map((s) => (
+                            <Link
+                              key={s}
+                              href="/specialities"
+                              onClick={() => setMobileOpen(false)}
+                              className="block px-3 py-2 text-xs font-medium text-ink-50 hover:text-teal-700 hover:bg-teal-50/60 rounded-md transition-colors"
+                            >
+                              {s}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
                     key={link.name}
