@@ -3,6 +3,8 @@ import "./globals.css";
 import { Fraunces, Inter } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import IntroAnimation from "@/components/layout/IntroAnimation";
+import { IntroProvider } from "@/context/IntroContext";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -60,9 +62,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body className="antialiased bg-cream text-ink">
-        <Navbar />
-        <main className="pt-16 lg:pt-[72px]">{children}</main>
-        <Footer />
+        <IntroProvider>
+          <IntroAnimation />
+          <div id="site-content">
+            <Navbar />
+            <main className="pt-16 lg:pt-[72px]">{children}</main>
+            <Footer />
+          </div>
+        </IntroProvider>
       </body>
     </html>
   );

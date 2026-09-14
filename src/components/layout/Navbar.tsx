@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion, useReducedMotion } from "framer-motion";
 import { useScrollShrink } from "@/lib/hooks";
 import { navLinks, hospitalInfo } from "@/data/hospital";
 import { cn } from "@/lib/utils";
+import { useIntro } from "@/context/IntroContext";
 import {
   Menu,
   X,
@@ -16,7 +18,40 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+const LETTERS = "PAARVATI".split("");
+
 export default function Navbar() {
+  const { stage, isNavbarReady, isHeroReady } = useIntro();
+  const prefersReduced = useReducedMotion();
+  const logoRef = useRef<HTMLDivElement>(null);
+  const [offset, setOffset] = useState<{ x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    if (prefersReduced) return;
+
+    const calc = () => {
+      const el = document.getElementById("navbar-brand-logo");
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const currentCenterX = rect.left + rect.width / 2;
+        const currentCenterY = rect.top + rect.height / 2;
+        const targetX = window.innerWidth / 2;
+        const targetY = window.innerHeight / 2;
+        setOffset({
+          x: targetX - currentCenterX,
+          y: targetY - currentCenterY,
+        });
+      }
+    };
+
+    calc();
+    window.addEventListener("resize", calc);
+    return () => window.removeEventListener("resize", calc);
+  }, [prefersReduced]);
+
+  const isIntro = !prefersReduced && stage === "intro";
+  const isTraveling = !prefersReduced && stage === "travel";
+
   // Triggers state 2 after 60-80px of scrolling
   const scrolled = useScrollShrink(70);
   const pathname = usePathname();
@@ -45,65 +80,132 @@ export default function Navbar() {
       >
         <div
           className={cn(
-            "pointer-events-auto transition-all duration-350 ease-out flex items-center",
+            "pointer-events-auto transition-all duration-700 ease-out flex items-center",
             scrolled
               ? "w-full max-w-[1320px] mx-auto h-[48px] sm:h-[52px] rounded-xl sm:rounded-[18px] bg-white/95 backdrop-blur-md border border-gray-200/80 shadow-[0_8px_30px_rgba(15,110,110,0.06),0_1px_3px_rgba(0,0,0,0.04)] px-3 sm:px-6 lg:px-7"
-              : "w-full h-[64px] sm:h-[72px] rounded-none bg-white border-b border-gray-100/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)] px-3.5 sm:px-8 lg:px-10"
+              : "w-full h-[64px] sm:h-[72px] rounded-none bg-white border-b border-gray-100/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)] px-3.5 sm:px-8 lg:px-10",
+            !isNavbarReady && "bg-transparent! border-transparent! shadow-none!"
           )}
         >
           <div className="w-full max-w-[1360px] mx-auto flex items-center justify-between">
-            {/* ═══ 1. PAARVATI LOGO SECTION ═══ */}
-            <Link
-              href="/"
-              className="flex items-center gap-2 sm:gap-3 group shrink-0 select-none py-1"
+            {/* ═══ 1. PAARVATI LOGO SECTION (Persistent, single animated logo) ═══ */}
+            <motion.div
+              ref={logoRef}
+              initial={false}
+              animate={
+                isIntro && offset
+                  ? {
+                      x: offset.x,
+                      y: offset.y,
+                      scale: 2.3,
+                    }
+                  : {
+                      x: 0,
+                      y: 0,
+                      scale: 1,
+                    }
+              }
+              transition={{
+                duration: isTraveling ? 1.4 : 0,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                userSelect: "none",
+                transformOrigin: "center center",
+                willChange: "transform",
+                zIndex: 60,
+                opacity: !prefersReduced && offset === null ? 0 : 1,
+              }}
             >
-              {/* Refined teal logo square with heart icon */}
-              <div
-                className={cn(
-                  "bg-teal-600 flex items-center justify-center shrink-0 transition-all duration-350 ease-out shadow-xs",
-                  scrolled
-                    ? "w-7 h-7 sm:w-8 sm:h-8 rounded-lg"
-                    : "w-[34px] h-[34px] sm:w-[40px] sm:h-[40px] rounded-[9px] sm:rounded-[10px] group-hover:bg-teal-700"
-                )}
+              <Link
+                href="/"
+                id="navbar-brand-logo"
+                className="flex items-center gap-2 sm:gap-3 group shrink-0 select-none py-1"
               >
-                <Heart
+                {/* Refined teal logo square with heart icon */}
+                <motion.div
+                  animate={
+                    isIntro
+                      ? { width: 0, height: 0, opacity: 0, scale: 0, marginRight: 0 }
+                      : {
+                          width: scrolled ? 32 : 40,
+                          height: scrolled ? 32 : 40,
+                          opacity: 1,
+                          scale: 1,
+                          marginRight: 0,
+                        }
+                  }
+                  transition={{
+                    duration: 0.8,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
                   className={cn(
-                    "text-white fill-white transition-all duration-350 ease-out",
-                    scrolled ? "w-3.5 h-3.5 sm:w-4 sm:h-4" : "w-4 h-4 sm:w-5 sm:h-5"
+                    "bg-teal-600 flex items-center justify-center shrink-0 shadow-xs rounded-[9px] sm:rounded-[10px] group-hover:bg-teal-700 overflow-hidden"
                   )}
-                />
-              </div>
+                >
+                  <Heart
+                    className={cn(
+                      "text-white fill-white transition-all duration-350 ease-out",
+                      scrolled ? "w-3.5 h-3.5 sm:w-4 sm:h-4" : "w-4 h-4 sm:w-5 sm:h-5"
+                    )}
+                  />
+                </motion.div>
 
-              {/* Brand Typography: Elegant and Prominent */}
-              <div className="flex flex-col leading-tight">
-                <span
-                  className={cn(
-                    "font-display font-bold text-ink leading-none tracking-tight transition-all duration-350 ease-out group-hover:text-teal-700",
-                    scrolled
-                      ? "text-[15px] sm:text-[17.5px]"
-                      : "text-[17px] sm:text-[21.5px]"
-                  )}
-                >
-                  Paarvati
-                </span>
-                <span
-                  className={cn(
-                    "font-bold uppercase text-ink-50 transition-all duration-350 ease-out leading-none",
-                    scrolled
-                      ? "text-[7px] sm:text-[8px] tracking-[0.16em] sm:tracking-[0.18em] mt-0.5"
-                      : "text-[7.5px] sm:text-[9px] tracking-[0.18em] sm:tracking-[0.22em] mt-0.5 sm:mt-1"
-                  )}
-                >
-                  Multispeciality
-                </span>
-              </div>
-            </Link>
+                {/* Brand Typography */}
+                <div className="flex flex-col leading-tight">
+                  <div
+                    className={cn(
+                      "font-display font-bold text-ink leading-none tracking-tight transition-all duration-350 ease-out group-hover:text-teal-700 flex items-center gap-[0.02em]",
+                      scrolled
+                        ? "text-[15px] sm:text-[17.5px]"
+                        : "text-[17px] sm:text-[21.5px]"
+                    )}
+                  >
+                    {LETTERS.map((letter, i) => (
+                      <motion.span
+                        key={i}
+                        initial={prefersReduced ? false : { opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.75,
+                          delay: prefersReduced ? 0 : 0.35 + i * 0.13,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        style={{ display: "inline-block" }}
+                      >
+                        {letter}
+                      </motion.span>
+                    ))}
+                  </div>
+                  <motion.span
+                    initial={prefersReduced ? false : { opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.65,
+                      delay: prefersReduced ? 0 : 1.5,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className={cn(
+                      "font-bold uppercase text-ink-50 transition-all duration-350 ease-out leading-none",
+                      scrolled
+                        ? "text-[7px] sm:text-[8px] tracking-[0.16em] sm:tracking-[0.18em] mt-0.5"
+                        : "text-[7.5px] sm:text-[9px] tracking-[0.18em] sm:tracking-[0.22em] mt-0.5 sm:mt-1"
+                    )}
+                  >
+                    Multispeciality
+                  </motion.span>
+                </div>
+              </Link>
+            </motion.div>
 
             {/* ═══ 2. DESKTOP NAVIGATION (Horizontally Centered) ═══ */}
             <nav
               className={cn(
-                "hidden lg:flex flex-1 items-center justify-center transition-all duration-350 ease-out",
-                scrolled ? "gap-6 xl:gap-7" : "gap-7 xl:gap-8"
+                "hidden lg:flex flex-1 items-center justify-center transition-all duration-700 ease-out",
+                scrolled ? "gap-6 xl:gap-7" : "gap-7 xl:gap-8",
+                !isHeroReady ? "opacity-0 pointer-events-none" : "opacity-100"
               )}
             >
               {navLinks.map((link) => {
@@ -204,8 +306,9 @@ export default function Navbar() {
             {/* ═══ 3. RIGHT ACTIONS (Refined Call + Primary CTA) ═══ */}
             <div
               className={cn(
-                "hidden lg:flex items-center shrink-0 transition-all duration-350 ease-out",
-                scrolled ? "gap-4 xl:gap-5" : "gap-5 xl:gap-6"
+                "hidden lg:flex items-center shrink-0 transition-all duration-800 ease-out",
+                scrolled ? "gap-4 xl:gap-5" : "gap-5 xl:gap-6",
+                !isHeroReady ? "opacity-0 pointer-events-none" : "opacity-100"
               )}
             >
               {/* Call Now with refined minimal circular icon and two-line hierarchy */}
@@ -278,7 +381,12 @@ export default function Navbar() {
             </div>
 
             {/* ═══ 4. MOBILE ACTIONS & HAMBURGER ═══ */}
-            <div className="flex items-center gap-2 lg:hidden">
+            <div
+              className={cn(
+                "flex items-center gap-2 lg:hidden transition-all duration-700 ease-out",
+                !isHeroReady ? "opacity-0 pointer-events-none" : "opacity-100"
+              )}
+            >
               <Link href="/contact" className="sm:hidden">
                 <span className="inline-flex items-center gap-1.5 bg-coral-500 text-white text-xs font-semibold px-3 py-1.5 h-8 rounded-lg shadow-xs">
                   <Calendar className="w-3 h-3" />

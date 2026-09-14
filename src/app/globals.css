@@ -134,3 +134,18 @@ body {
   }
 }
 
+/* ═══ Intro Animation ═══ */
+
+@keyframes introCircleDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Accessibility: skip intro entirely */
+@media (prefers-reduced-motion: reduce) {
+  .intro-overlay {
+    display: none !important;
+  }
+}
+

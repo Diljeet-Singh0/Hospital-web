@@ -25,8 +25,10 @@ import TestimonialsScrollStack from "@/components/home/TestimonialsScrollStack";
 import StatsScrollPin from "@/components/home/StatsScrollPin";
 import ScrollWordReveal from "@/components/ui/ScrollWordReveal";
 import DoctorCard from "@/components/ui/DoctorCard";
+import { useIntro } from "@/context/IntroContext";
 
 export default function Home() {
+  const { isHeroReady } = useIntro();
   const aboutSectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: aboutScrollProgress } = useScroll({
     target: aboutSectionRef,
@@ -45,9 +47,9 @@ export default function Home() {
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-7">
               <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0, y: 28 }}
+                animate={isHeroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+                transition={{ duration: 1.0, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
                 className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white border border-teal-100 shadow-subtle mb-5 sm:mb-8"
               >
                 <span className="flex items-center gap-0.5 sm:gap-1">
@@ -61,9 +63,9 @@ export default function Home() {
               </motion.div>
 
               <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.75, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0, y: 36 }}
+                animate={isHeroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 36 }}
+                transition={{ duration: 1.1, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
                 className="heading-display text-[32px] sm:text-h1 lg:text-hero mb-4 sm:mb-6 leading-[1.12] sm:leading-[1.08]"
               >
                 Where{" "}
@@ -73,20 +75,23 @@ export default function Home() {
                 <span className="relative inline-block">
                   Excellence
                   <svg className="absolute -bottom-1.5 sm:-bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
-                    <path
+                    <motion.path
                       d="M2 9C80 3 150 3 298 9"
                       stroke="#FF7043"
                       strokeWidth="3"
                       strokeLinecap="round"
+                      initial={{ pathLength: 0 }}
+                      animate={isHeroReady ? { pathLength: 1 } : { pathLength: 0 }}
+                      transition={{ duration: 1.1, delay: 1.25, ease: [0.16, 1, 0.3, 1] }}
                     />
                   </svg>
                 </span>
               </motion.h1>
 
               <motion.p
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0, y: 28 }}
+                animate={isHeroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+                transition={{ duration: 1.0, delay: 1.25, ease: [0.16, 1, 0.3, 1] }}
                 className="text-sm sm:text-body-lg text-ink-50 max-w-xl mb-6 sm:mb-10 leading-relaxed"
               >
                 Smt. Paarvati Devi Hospital — A NABH Accredited Super Multispeciality Hospital
@@ -95,9 +100,9 @@ export default function Home() {
               </motion.p>
 
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0, y: 26 }}
+                animate={isHeroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 26 }}
+                transition={{ duration: 1.0, delay: 1.65, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8 sm:mb-10"
               >
                 <Link href="/contact" className="w-full sm:w-auto">
@@ -121,8 +126,8 @@ export default function Home() {
 
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.74, ease: [0.16, 1, 0.3, 1] }}
+                animate={isHeroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+                transition={{ duration: 1.0, delay: 2.25, ease: [0.16, 1, 0.3, 1] }}
                 className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-5 sm:pt-6 border-t border-teal-100/60"
               >
                 {hospitalInfo.accreditations.map((acc) => (
@@ -147,8 +152,8 @@ export default function Home() {
 
             <motion.div
               initial={{ opacity: 0, y: 36, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              animate={isHeroReady ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 36, scale: 0.97 }}
+              transition={{ duration: 1.2, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-5"
             >
               <div className="relative rounded-2xl overflow-hidden shadow-card border border-gray-100/80 bg-white">
@@ -163,8 +168,8 @@ export default function Home() {
 
                 <motion.div
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.72, ease: [0.16, 1, 0.3, 1] }}
+                  animate={isHeroReady ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.95 }}
+                  transition={{ duration: 0.9, delay: 1.95, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white/95 backdrop-blur-sm rounded-xl p-2.5 sm:p-3.5 shadow-card border border-gray-100 max-w-[170px] sm:max-w-[210px]"
                 >
                   <div className="flex -space-x-1.5 sm:-space-x-2 mb-1.5 sm:mb-2">
@@ -192,8 +197,8 @@ export default function Home() {
 
                 <motion.div
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                  animate={isHeroReady ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.95 }}
+                  transition={{ duration: 0.9, delay: 2.55, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 bg-white/95 backdrop-blur-sm rounded-xl p-2.5 sm:p-3.5 shadow-card border border-gray-100 max-w-[180px] sm:max-w-[220px]"
                 >
                   <div className="flex items-center gap-2 sm:gap-2.5 mb-1.5 sm:mb-2">
